@@ -668,6 +668,11 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     & > * {
         flex: 0 0 calc(33.333% - 0.67rem);
     }
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        align-items: center;
+    } 
 `,Aj=N(ht.div)`
     display: flex;
     flex-direction: column;
@@ -844,6 +849,9 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
     @media (max-width: 768px) {
         grid-template-columns: 1fr;
     }
+    @media (max-width: 480px) {
+        padding: 0;
+    }
 `,Pj={hidden:{opacity:0},visible:{opacity:1,transition:{staggerChildren:.2,delayChildren:.1}}},Bj=()=>{const n=[{id:"card-1",title:"프론트엔드",stack:[{name:"React",logo:"https://cdn.simpleicons.org/react"},{name:"Vue",logo:"https://cdn.simpleicons.org/vue.js"},{name:"Nuxt",logo:"https://api.iconify.design/simple-icons:nuxt.svg?color=%2300C58E"},{name:"JavaScript",logo:"https://cdn.simpleicons.org/javascript"},{name:"TypeScript",logo:"https://cdn.simpleicons.org/typescript"}]},{id:"card-2",title:"백엔드",stack:[{name:"Django",logo:"https://cdn.simpleicons.org/django"},{name:"FastAPI",logo:"https://cdn.simpleicons.org/fastapi"},{name:"Node.js",logo:"https://cdn.simpleicons.org/node.js"}]},{id:"card-3",title:"데이터베이스",stack:[{name:"PostgreSQL",logo:"https://cdn.simpleicons.org/postgresql"},{name:"MySQL",logo:"https://cdn.simpleicons.org/mysql"}]},{id:"card-4",title:"인프라",stack:[{name:"Docker",logo:"https://cdn.simpleicons.org/docker"},{name:"Render",logo:"https://cdn.simpleicons.org/render"},{name:"Supabase",logo:"https://cdn.simpleicons.org/supabase"}]}];return b.jsxs("div",{children:[b.jsx(K5,{title:"Stack"}),b.jsx(Nj,{variants:Pj,initial:"hidden",whileInView:"visible",viewport:{once:!0,amount:.2},children:n.map(t=>b.jsx(Oj,{title:t.title,stack:t.stack,layoutId:t.id},t.id))})]})},Vj=N(ht.div)`
     display: flex;
     justify-content: center;
@@ -924,12 +932,7 @@ Please change the parent <Route path="${R}"> to <Route path="${R==="/"?"*":`${R}
 `,$j=N.div`
   width: 100%;
   max-width: 1200px;
-
   margin: 0 auto;
-
-  @media (max-width: 768px) {
-    width: 90%;
-  }
 `,Qj=N.section`
   position: relative;
 

@@ -15,6 +15,9 @@ const CardsGrid = styled(motion.div)`
     @media (max-width: 768px) {
         grid-template-columns: 1fr;
     }
+    @media (max-width: 480px) {
+        padding: 0;
+    }
 `;
 
 const containerVariants = {

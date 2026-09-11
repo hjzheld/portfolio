@@ -52,6 +52,11 @@ const StackList = styled.div`
     & > * {
         flex: 0 0 calc(33.333% - 0.67rem);
     }
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        align-items: center;
+    } 
 `;
 
 

@@ -37,12 +37,7 @@ const MainContainer = styled(Container)`
 const MainInner = styled.div`
   width: 100%;
   max-width: 1200px;
-
   margin: 0 auto;
-
-  @media (max-width: 768px) {
-    width: 90%;
-  }
 `;
 
 /* =========================================================

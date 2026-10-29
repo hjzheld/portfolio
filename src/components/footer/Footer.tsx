@@ -1,18 +1,20 @@
 import styled from "styled-components";
 import GraLine from "@/components/common/GradationLine";
 import {FooterLogo} from '../header/Logo';
-import { useMediaQuery } from '@/hooks/useMediaQuery'
+
 
 import emailSvg from "@/assets/images/common/email.svg";
 // import phoneSvg from "@/assets/images/common/phone.svg";
 
 const FooterWrapper = styled.footer`
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 1rem clamp(1rem,4vw,2rem);
 `;
 
-const FooterContent = styled.footer`
-    width: 80%;
+const FooterContent = styled.div`
+    width: 100%;
+    max-width:1200px;
+    min-width:0;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -25,16 +27,19 @@ const FooterContent = styled.footer`
 const FooterIcon = styled.div`
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: .75rem;
+    min-width:0;
+    a { color:var(--ink); overflow-wrap:anywhere; font-size:.9rem; }
+    a:hover { text-decoration:underline; text-underline-offset:4px; }
     
     img {
-        width: 25px;
+        width: 36px;
         height: auto;
     }
 `
 
 const Footer = () => {
-    const isSmallMobile = useMediaQuery('(max-width: 480px)');
+
 
     return ( 
         <FooterWrapper>
@@ -42,8 +47,8 @@ const Footer = () => {
             <FooterContent>
             <FooterLogo />
                 <FooterIcon>
-                    <img src={emailSvg} alt="email" loading="lazy" />
-                   {isSmallMobile ? <p>dusen380@gmail.com</p> : <p>이메일: dusen380@gmail.com</p>}
+                    <img src={emailSvg} alt="" aria-hidden="true" loading="lazy" />
+                   <a href="mailto:dusen380@gmail.com">dusen380@gmail.com</a>
                 </FooterIcon>
                 </FooterContent>
             

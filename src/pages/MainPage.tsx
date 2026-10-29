@@ -6,6 +6,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
+import BusScene from "@/components/main/BusScene";
+import SelectedWork from "@/components/main/SelectedWork";
 import Btn from "@/components/common/Btn";
 import Container from "@/components/common/Container";
 
@@ -45,126 +47,43 @@ const MainInner = styled.div`
 ========================================================= */
 
 const HeroSection = styled.section`
-  position: relative;
-
-  width: 100%;
-
-  min-height: calc(100vh - 100px);
-
-  display: flex;
-  align-items: center;
-
-  padding: 5rem 0 6rem;
-
-  @media (max-width: 1024px) {
-    min-height: auto;
-
-    padding: 4.5rem 0 5rem;
+  position:relative; isolation:isolate; width:100%; min-height:0;
+  display:flex; align-items:center; padding:4rem 1rem 3.5rem;
+  &::before, &::after { content:''; position:absolute; z-index:-1; pointer-events:none; }
+  &::before {
+    width:440px; height:360px; left:7%; top:22%;
+    background:var(--pastel-green); opacity:.35;
+    border-radius:48% 52% 60% 40% / 54% 45% 55% 46%; transform:rotate(-15deg);
+  }
+  &::after {
+    width:390px; height:360px; right:7%; top:12%;
+    background:var(--pastel-pink); opacity:.3;
+    border-radius:57% 43% 42% 58% / 46% 58% 42% 54%; transform:rotate(12deg);
+  }
+  @media(max-width:768px) {
+    min-height:580px; padding:4rem 0 4.5rem;
+    &::before { width:260px; height:300px; left:-45px; top:25%; }
+    &::after { width:240px; height:260px; right:-40px; top:15%; }
   }
 
-  @media (max-width: 768px) {
-    padding: 3.5rem 0 4rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 2.5rem 0 3rem;
-  }
 `;
 
 const HeroGrid = styled.div`
-  position: relative;
-  z-index: 2;
+  width:100%; display:flex; justify-content:center; position:relative;
 
-  width: 100%;
-
-  display: grid;
-
-  grid-template-columns:
-    minmax(0, 1.15fr)
-    minmax(320px, 0.85fr);
-
-  align-items: center;
-
-  gap: clamp(2rem, 5vw, 5rem);
-
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr;
-
-    gap: 3.5rem;
-  }
-
-  @media (max-width: 768px) {
-    gap: 3rem;
-  }
-
-  @media (max-width: 480px) {
-    gap: 2.5rem;
-  }
 `;
 
 const HeroContent = styled.div`
-  position: relative;
+  width:100%; max-width:900px; display:flex; flex-direction:column;
+  align-items:center; text-align:center; gap:1.5rem;
+  @media(max-width:768px) { gap:1.25rem; }
 
-  display: flex;
-  flex-direction: column;
-
-  align-items: flex-start;
-
-  gap: 1.4rem;
-
-  min-width: 0;
-
-  @media (max-width: 768px) {
-    gap: 1.25rem;
-  }
 `;
 
 /* =========================================================
    HERO BADGE
 ========================================================= */
 
-const HeroBadge = styled.div`
-  display: inline-flex;
-  align-items: center;
-
-  width: fit-content;
-
-  gap: 0.55rem;
-
-  padding: 0.5rem 0.9rem;
-
-  border-radius: 999px;
-
-  background: var(--sky-100);
-
-  color: var(--gray-400);
-
-  font-family: var(--font-en);
-
-  font-size: 0.78rem;
-  font-weight: 500;
-
-  box-shadow: var(--box-shadow);
-
-  &::before {
-    content: "";
-
-    width: 7px;
-    height: 7px;
-
-    flex-shrink: 0;
-
-    border-radius: 50%;
-
-    background: var(--primary-color);
-  }
-
-  @media (max-width: 480px) {
-    padding: 0.45rem 0.75rem;
-
-    font-size: 0.7rem;
-  }
-`;
 
 /* =========================================================
    HERO TITLE
@@ -361,6 +280,7 @@ const HeroDescription = styled.p`
 ========================================================= */
 
 const HeroInfo = styled.div`
+  justify-content:center;
   display: flex;
   align-items: center;
 
@@ -410,6 +330,9 @@ const HeroInfoItem = styled.div`
 ========================================================= */
 
 const HeroActions = styled.div`
+  .mag-zone:nth-child(2) button { background:var(--clay-blue); }
+
+  justify-content:center;
   display: flex;
   align-items: center;
 
@@ -477,378 +400,6 @@ const MagneticLabel = styled.span`
    PREVIEW
 ========================================================= */
 
-const PreviewArea = styled.div`
-  position: relative;
-
-  width: 100%;
-  max-width: 430px;
-
-  margin-left: auto;
-
-  @media (max-width: 1024px) {
-    max-width: 720px;
-
-    margin: 0;
-  }
-
-  @media (max-width: 768px) {
-    max-width: 100%;
-  }
-`;
-
-const PreviewGlow = styled.div`
-  position: absolute;
-
-  width: 250px;
-  height: 250px;
-
-  right: -60px;
-  top: -60px;
-
-  border-radius: 50%;
-
-  background:
-    rgba(
-      118,
-      164,
-      218,
-      0.18
-    );
-
-  filter: blur(10px);
-
-  pointer-events: none;
-
-  @media (max-width: 480px) {
-    width: 160px;
-    height: 160px;
-
-    right: -50px;
-  }
-`;
-
-const PreviewCard = styled.div`
-  position: relative;
-  z-index: 2;
-
-  width: 100%;
-
-  padding: 0.9rem;
-
-  border-radius: 26px;
-
-  background: var(--sky-200);
-
-  border:
-    1px solid
-    rgba(
-      118,
-      164,
-      218,
-      0.18
-    );
-
-  box-shadow:
-    0 10px 35px
-      rgba(
-        118,
-        164,
-        218,
-        0.16
-      ),
-    var(--box-shadow);
-
-  will-change: transform;
-
-  @media (max-width: 480px) {
-    padding: 0.7rem;
-
-    border-radius: 20px;
-  }
-`;
-
-const PreviewHeader = styled.div`
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-
-  padding:
-    0.15rem
-    0.15rem
-    0.9rem;
-`;
-
-const WindowDots = styled.div`
-  display: flex;
-
-  gap: 0.35rem;
-
-  span {
-    width: 8px;
-    height: 8px;
-
-    border-radius: 50%;
-
-    background: var(
-      --primary-gray
-    );
-  }
-
-  span:first-child {
-    background:
-      var(--primary-color);
-  }
-
-  span:nth-child(2) {
-    background:
-      var(--primary-light);
-  }
-
-  span:last-child {
-    opacity: 0.55;
-  }
-`;
-
-const PreviewFileName = styled.span`
-  color: var(--gray-400);
-
-  font-family: var(--font-en);
-
-  font-size: 0.68rem;
-`;
-
-const PreviewBody = styled.div`
-  position: relative;
-
-  min-height: 360px;
-
-  display: flex;
-  flex-direction: column;
-
-  justify-content: space-between;
-
-  padding: 2rem;
-
-  overflow: hidden;
-
-  border-radius: 19px;
-
-  background: linear-gradient(
-    145deg,
-    rgba(
-      175,
-      213,
-      255,
-      0.8
-    ),
-    rgba(
-      238,
-      238,
-      238,
-      0.92
-    )
-  );
-
-  @media (max-width: 1024px) {
-    min-height: 320px;
-  }
-
-  @media (max-width: 768px) {
-    min-height: 300px;
-
-    padding: 1.6rem;
-  }
-
-  @media (max-width: 480px) {
-    min-height: 270px;
-
-    padding: 1.3rem;
-
-    border-radius: 15px;
-  }
-`;
-
-const PreviewDecoration = styled.div`
-  position: absolute;
-
-  width: 170px;
-  height: 170px;
-
-  right: -50px;
-  top: 50%;
-
-  border-radius:
-    40%
-    60%
-    55%
-    45%;
-
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      0.25
-    );
-
-  transform:
-    translateY(-50%)
-    rotate(25deg);
-
-  pointer-events: none;
-
-  @media (max-width: 480px) {
-    width: 130px;
-    height: 130px;
-  }
-`;
-
-const PreviewTop = styled.div`
-  position: relative;
-  z-index: 2;
-
-  display: flex;
-
-  justify-content: space-between;
-  align-items: flex-start;
-`;
-
-const PreviewLabel = styled.span`
-  color: var(--gray-400);
-
-  font-family: var(--font-en);
-
-  font-size: 0.68rem;
-
-  font-weight: 500;
-
-  letter-spacing: 0.08em;
-`;
-
-const PreviewStatus = styled.span`
-  display: inline-flex;
-  align-items: center;
-
-  gap: 0.35rem;
-
-  color: var(--gray-400);
-
-  font-family: var(--font-en);
-
-  font-size: 0.62rem;
-
-  &::before {
-    content: "";
-
-    width: 5px;
-    height: 5px;
-
-    border-radius: 50%;
-
-    background:
-      var(--primary-color);
-  }
-`;
-
-const PreviewTitle = styled.div`
-  position: relative;
-  z-index: 2;
-
-  h2 {
-    margin-bottom: 0.7rem;
-
-    color: var(--gray-100);
-
-    font-family: var(--font-en);
-
-    font-size: clamp(
-      2.4rem,
-      4vw,
-      3.4rem
-    );
-
-    line-height: 1;
-
-    letter-spacing: -0.05em;
-  }
-
-  p {
-    max-width: 300px;
-
-    color: var(--gray-400);
-
-    font-size: 0.85rem;
-
-    line-height: 1.7;
-
-    word-break: keep-all;
-  }
-
-  @media (max-width: 480px) {
-    h2 {
-      font-size: 2.15rem;
-    }
-
-    p {
-      font-size: 0.8rem;
-    }
-  }
-`;
-
-const PreviewStack = styled.div`
-  position: relative;
-  z-index: 2;
-
-  display: flex;
-
-  flex-wrap: wrap;
-
-  gap: 0.5rem;
-`;
-
-const PreviewStackItem = styled.span`
-  padding:
-    0.42rem
-    0.7rem;
-
-  border-radius: 999px;
-
-  background:
-    rgba(
-      255,
-      255,
-      255,
-      0.62
-    );
-
-  color: var(--gray-400);
-
-  font-family: var(--font-en);
-
-  font-size: 0.67rem;
-
-  box-shadow:
-    0 2px 5px
-    rgba(
-      118,
-      164,
-      218,
-      0.1
-    );
-
-  @media (max-width: 480px) {
-    padding:
-      0.38rem
-      0.6rem;
-
-    font-size: 0.62rem;
-  }
-`;
-
-/* =========================================================
-   SECTION
-========================================================= */
 
 const Section = styled.section`
   position: relative;
@@ -879,10 +430,7 @@ const SectionLine = styled.div`
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(
-      118,
-      164,
-      218,
+    rgba(249, 220, 229,
       0.42
     ),
     transparent
@@ -928,17 +476,6 @@ const SectionTitleWrap = styled.div`
   gap: 0.6rem;
 `;
 
-const SectionLabel = styled.span`
-  color: var(--primary-color);
-
-  font-family: var(--font-en);
-
-  font-size: 0.7rem;
-
-  font-weight: 500;
-
-  letter-spacing: 0.1em;
-`;
 
 const SectionTitle = styled.h2`
   color: var(--gray-100);
@@ -1015,13 +552,17 @@ const AboutGrid = styled.div`
 `;
 
 const AboutCard = styled.div`
+  &&:nth-child(2) { background:var(--clay-mint); }
+  &&:nth-child(3) { background:var(--clay-blue); }
+
+  && { border:var(--clay-border); border-radius:30px; background:var(--clay-cream); box-shadow:var(--clay-shadow); backdrop-filter:none; }
+
   position: relative;
 
-  min-height: 250px;
+  min-height: 150px;
 
   display: flex;
   flex-direction: column;
-
   justify-content: space-between;
 
   gap: 2rem;
@@ -1034,25 +575,16 @@ const AboutCard = styled.div`
 
   border:
     1px solid
-    rgba(
-      118,
-      164,
-      218,
+    rgba(133, 129, 133,
       0.13
     );
 
   background: linear-gradient(
     150deg,
-    rgba(
-      175,
-      213,
-      255,
+    rgba(249, 220, 229,
       0.58
     ),
-    rgba(
-      238,
-      238,
-      238,
+    rgba(246, 237, 243,
       0.9
     )
   );
@@ -1078,10 +610,7 @@ const AboutCard = styled.div`
     border-radius: 50%;
 
     background:
-      rgba(
-        255,
-        255,
-        255,
+      rgba(255, 251, 253,
         0.25
       );
   }
@@ -1092,10 +621,7 @@ const AboutCard = styled.div`
 
     box-shadow:
       0 10px 25px
-      rgba(
-        118,
-        164,
-        218,
+      rgba(133, 129, 133,
         0.2
       );
   }
@@ -1115,18 +641,6 @@ const AboutCard = styled.div`
   }
 `;
 
-const AboutNumber = styled.span`
-  position: relative;
-  z-index: 2;
-
-  color: var(--primary-color);
-
-  font-family: var(--font-en);
-
-  font-size: 0.7rem;
-
-  letter-spacing: 0.08em;
-`;
 
 const AboutCardBottom = styled.div`
   position: relative;
@@ -1229,6 +743,8 @@ const CompactText = styled.p`
 ========================================================= */
 
 const BottomCard = styled.div`
+  && { border:var(--clay-border); border-radius:30px; background:var(--clay-cream); box-shadow:var(--clay-shadow); backdrop-filter:none; }
+
   position: relative;
 
   width: 100%;
@@ -1251,16 +767,10 @@ const BottomCard = styled.div`
 
   background: linear-gradient(
     135deg,
-    rgba(
-      175,
-      213,
-      255,
+    rgba(249, 220, 229,
       0.92
     ),
-    rgba(
-      205,
-      205,
-      205,
+    rgba(220, 236, 248,
       0.86
     )
   );
@@ -1281,10 +791,7 @@ const BottomCard = styled.div`
     border-radius: 50%;
 
     background:
-      rgba(
-        255,
-        255,
-        255,
+      rgba(255, 251, 253,
         0.2
       );
   }
@@ -1358,6 +865,14 @@ const BottomText = styled.div`
 `;
 
 const BottomActions = styled.div`
+  button {
+    background: var(--coal);
+    border: 1px solid rgba(249, 220, 229,.25);
+    box-shadow: 0 4px 12px rgba(78,81,85,.12);
+  }
+  button span { color: var(--mauve); text-shadow: none; }
+  button:hover { background: #59575c; }
+
   position: relative;
   z-index: 2;
 
@@ -1425,22 +940,7 @@ const MainPage = () => {
       const heroTl =
         gsap.timeline();
 
-      heroTl.from(
-        ".hero-badge",
-        {
-          opacity: 0,
-
-          y: 14,
-
-          duration: 0.4,
-
-          ease:
-            "power2.out",
-
-          overwrite:
-            "auto",
-        },
-      );
+      heroTl.to({}, { duration: 0.4 });
 
       heroTl.fromTo(
         ".hero-char",
@@ -1591,27 +1091,6 @@ const MainPage = () => {
         "-=0.2",
       );
 
-      heroTl.from(
-        ".preview-card",
-        {
-          opacity: 0,
-
-          x: 35,
-
-          scale: 0.97,
-
-          duration: 0.75,
-
-          ease:
-            "power3.out",
-
-          overwrite:
-            "auto",
-        },
-
-        "-=0.6",
-      );
-
       const idleLetters =
         gsap.utils.toArray<HTMLElement>(
           ".idle-char",
@@ -1682,27 +1161,6 @@ const MainPage = () => {
       /* =====================================================
          PREVIEW IDLE
       ===================================================== */
-
-      gsap.to(
-        ".preview-card",
-        {
-          y: -6,
-
-          duration: 3.2,
-
-          repeat: -1,
-
-          yoyo: true,
-
-          ease:
-            "sine.inOut",
-
-          delay: 1.8,
-
-          overwrite:
-            "auto",
-        },
-      );
 
       /* =====================================================
          MAGNETIC BUTTON
@@ -2031,9 +1489,7 @@ const MainPage = () => {
             {/* LEFT */}
 
             <HeroContent>
-              <HeroBadge className="hero-badge">
-                Frontend Developer Portfolio
-              </HeroBadge>
+
 
               <HeroVisualArea>
                 <HeroTitle>
@@ -2059,14 +1515,7 @@ const MainPage = () => {
                 </HeroTitle>
               </HeroVisualArea>
 
-              <HeroDescription className="hero-description">
-                새로운 기술을
-                배우는 것뿐 아니라
-                실제 서비스에서 사용할
-                수 있는 결과물로 만드는
-                것을 중요하게
-                생각합니다.
-              </HeroDescription>
+              <HeroDescription className="hero-description">Vue·Nuxt 기반으로 사용자·관리자 서비스를 개발하는 공혜진입니다. 인증·결제·권한과 API 데이터를 화면에 연결하고, 기존 서비스 개선부터 QA·배포까지 담당합니다.</HeroDescription>
 
               <HeroInfo>
                 <HeroInfoItem className="hero-info-item">
@@ -2078,7 +1527,7 @@ const MainPage = () => {
                 </HeroInfoItem>
 
                 <HeroInfoItem className="hero-info-item">
-                  Fullstack Experience
+                  API Integration
                 </HeroInfoItem>
 
                 <HeroInfoItem className="hero-info-item">
@@ -2097,7 +1546,7 @@ const MainPage = () => {
                       }
                     >
                       <MagneticLabel className="mag-label">
-                        프로젝트 보러가기 ▶
+                        포트폴리오 보기 ▶
                       </MagneticLabel>
                     </Btn.GradientBtn>
                   </MagneticTarget>
@@ -2125,79 +1574,11 @@ const MainPage = () => {
                   </MagneticTarget>
                 </MagneticZone>
               </HeroActions>
+              <BusScene />
             </HeroContent>
-
-            <PreviewArea>
-              <PreviewGlow />
-
-              <PreviewCard className="preview-card">
-                <PreviewHeader>
-                  <WindowDots>
-                    <span />
-                    <span />
-                    <span />
-                  </WindowDots>
-
-                  <PreviewFileName>
-                    portfolio.tsx
-                  </PreviewFileName>
-                </PreviewHeader>
-
-                <PreviewBody>
-                  <PreviewDecoration />
-
-                  <PreviewTop>
-                    <PreviewLabel>
-                      ABOUT ME
-                    </PreviewLabel>
-
-                    <PreviewStatus>
-                      AVAILABLE
-                    </PreviewStatus>
-                  </PreviewTop>
-
-                  <PreviewTitle>
-                    <h2>
-                      Web
-                      <br />
-                      Developer
-                    </h2>
-
-                    <p>
-                      화면 구현부터
-                      API 연동, 데이터
-                      처리와 서비스
-                      구조까지 함께
-                      고민합니다.
-                    </p>
-                  </PreviewTitle>
-
-                  <PreviewStack>
-                    <PreviewStackItem>
-                      React
-                    </PreviewStackItem>
-
-                    <PreviewStackItem>
-                      Vue
-                    </PreviewStackItem>
-
-                    <PreviewStackItem>
-                      TypeScript
-                    </PreviewStackItem>
-
-                    <PreviewStackItem>
-                      FastAPI
-                    </PreviewStackItem>
-
-                    <PreviewStackItem>
-                      PostgreSQL
-                    </PreviewStackItem>
-                  </PreviewStack>
-                </PreviewBody>
-              </PreviewCard>
-            </PreviewArea>
           </HeroGrid>
         </HeroSection>
+        <SelectedWork compact />
 
         {/* =================================================
             ABOUT
@@ -2208,9 +1589,7 @@ const MainPage = () => {
 
           <SectionHeader className="main-reveal">
             <SectionTitleWrap>
-              <SectionLabel>
-                01 / ABOUT
-              </SectionLabel>
+
 
               <SectionTitle>
                 제가 개발할 때
@@ -2230,9 +1609,7 @@ const MainPage = () => {
 
           <AboutGrid className="about-grid">
             <AboutCard className="about-card">
-              <AboutNumber>
-                01 / FRONTEND
-              </AboutNumber>
+
 
               <AboutCardBottom>
                 <h3>
@@ -2250,9 +1627,7 @@ const MainPage = () => {
             </AboutCard>
 
             <AboutCard className="about-card">
-              <AboutNumber>
-                02 / SERVICE
-              </AboutNumber>
+
 
               <AboutCardBottom>
                 <h3>
@@ -2270,9 +1645,7 @@ const MainPage = () => {
             </AboutCard>
 
             <AboutCard className="about-card">
-              <AboutNumber>
-                03 / TEAM
-              </AboutNumber>
+
 
               <AboutCardBottom>
                 <h3>
@@ -2299,11 +1672,7 @@ const MainPage = () => {
           <SectionLine className="section-line" />
 
           <CompactHeader className="main-reveal">
-            <SectionTitleWrap>
-              <SectionLabel>
-                02 / STACK
-              </SectionLabel>
-            </SectionTitleWrap>
+
 
             <CompactText>
               실무와 개인
@@ -2326,11 +1695,7 @@ const MainPage = () => {
           <SectionLine className="section-line" />
 
           <CompactHeader className="main-reveal">
-            <SectionTitleWrap>
-              <SectionLabel>
-                03 / EDUCATION
-              </SectionLabel>
-            </SectionTitleWrap>
+
 
             <CompactText>
               현재까지의 학력입니다.
@@ -2378,7 +1743,7 @@ const MainPage = () => {
                       }
                     >
                       <MagneticLabel className="mag-label">
-                        프로젝트 보러가기 ▶
+                        포트폴리오 보기 ▶
                       </MagneticLabel>
                     </Btn.GradientBtn>
                   </MagneticTarget>

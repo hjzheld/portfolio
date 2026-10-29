@@ -91,7 +91,7 @@ html:lang(zh) {
 /* 스크롤바 스타일 */
 html {
   scrollbar-width: thin;
-  scrollbar-color: rgba(118, 164, 218, 0.5) rgba(118, 164, 218, 0.1);
+  scrollbar-color: rgba(133, 129, 133, 0.5) rgba(133, 129, 133, 0.1);
 
   /* 모달 open 시 scrollbar가 사라져도 화면/X버튼 위치가 밀리지 않게 */
   scrollbar-gutter: stable;
@@ -103,18 +103,18 @@ html::-webkit-scrollbar {
 }
 
 html::-webkit-scrollbar-track {
-  background: rgba(118, 164, 218, 0.1);
+  background: rgba(133, 129, 133, 0.1);
 }
 
 html::-webkit-scrollbar-thumb {
-  background: rgba(118, 164, 218, 0.5);
+  background: rgba(133, 129, 133, 0.5);
   border-radius: 999px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
 
 html::-webkit-scrollbar-thumb:hover {
-  background: rgba(118, 164, 218, 0.7);
+  background: rgba(133, 129, 133, 0.7);
   border-radius: 999px;
   border: 2px solid transparent;
   background-clip: padding-box;
@@ -154,46 +154,40 @@ body {
 
 
 :root {
-  --primary-color: #76a4da;
-  --primary-gray: #c3c3c3;
-  --primary-light: #bebcd8;
+  --primary-color: #64736b;
+  --primary-gray: #c8cebc;
+  --primary-light: #d0e4e6;
 
-  --main-background: #e7e7e7;
-  --box-shadow: 0 2px 4px rgba(118, 164, 218, 0.5);
+  --main-background: #f8f3eb;
+  --box-shadow: 0 2px 4px rgba(133, 129, 133, 0.5);
   --box-shadow-dark: 0 2px 4px rgba(150, 150, 150, 0.5);
   --modal-back: rgba(129, 134, 139, 0.95);
 
   --gray-100: #333;
   --gray-400: #636363;
-  --gray-200: #c7c7c7;
-  --gray-300: #eeeeee;
+  --gray-200: #d0e4e6;
+  --gray-300: #edf0e4;
   --white-100: #FFF;
-  --sky-100: rgb(216, 224, 230);
-  --sky-200: rgb(241, 248, 255);
+  --sky-100: rgb(249, 220, 229);
+  --sky-200: rgb(251, 246, 249);
 
 
-  --project-transition-base: #f5f7fa;
-  --project-transition-blue: #dce8f4;
-  --project-transition-lavender: #e7e5f0;
-  --project-transition-mist: #e3e8ed;
+  --project-transition-base: #f8f3eb;
+  --project-transition-blue: #f3d3c9;
+  --project-transition-lavender: #d0e4e6;
+  --project-transition-mist: #d0e4e6;
 
-  --project-transition-text: #687789;
+  --project-transition-text: #64736b;
 
   
 
   // rgba
-  --white-rgba: rgba(255, 255, 255, 0.1);
-  --project-transition-line: rgba(
-    118,
-    164,
-    218,
+  --white-rgba: rgba(255, 251, 253, 0.1);
+  --project-transition-line: rgba(133, 129, 133,
     0.22
   );
 
-  --project-transition-shadow: rgba(
-    75,
-    100,
-    130,
+  --project-transition-shadow: rgba(108, 107, 111,
     0.08
   );
 
@@ -504,7 +498,7 @@ body {
 .swiper-pagination-bullet {
   width: 10px !important;
   height: 10px !important;
-  background: rgba(118, 164, 218, 0.5) !important;
+  background: rgba(133, 129, 133, 0.5) !important;
   opacity: 1 !important;
   transition: all 0.3s ease !important;
   
@@ -534,4 +528,91 @@ body {
   button {
     cursor: none !important;
   }
+}
+/* Keyboard navigation and reduced motion */
+:focus-visible { outline: 3px solid #3e5149; outline-offset: 5px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* Sage / opal / vanilla: shared paper and stationery palette. */
+:root {
+  --sage: #64736b;
+  --mint: #b68172;
+  --jet-stream: #f3d3c9;
+  --vanilla: #d0e4e6;
+  --opal: #d0e4e6;
+  --paper: #fff7ec;
+  --lemon-paper: #f5e6c8;
+  --ink: #3e5149;
+  --main-background: #f8f3eb;
+  --primary-color: #64736b;
+  --primary-light: #d0e4e6;
+  --gray-100: #3e5149;
+  --gray-400: #64736b;
+  --sky-100: #e0ead9;
+  --sky-200: #fff7ec;
+  --box-shadow: 0 8px 24px rgba(78, 81, 85,.08);
+  --font-editorial: Georgia, 'Times New Roman', 'Noto Sans KR', serif;
+}
+body {
+  background-image: radial-gradient(rgba(249, 220, 229,.055) .7px, transparent .7px);
+  background-size: 7px 7px;
+}
+::selection { background: #f3d3c9; color: #3e5149; }
+a, button { -webkit-tap-highlight-color: rgba(133, 129, 133,.15); }
+
+/* User palette: chert / plum charcoal / hidcote / coal / mauve / berry. */
+:root {
+  --chert:#858185; --plum:#64736b; --hidcote:#9d959b; --coal:#3e5149;
+  --desiree:#d0e4e6; --mauve:#f3d3c9; --berry:#b68172;
+  --paper:#fff7ec; --ink:#3e5149; --main-background:#f8f3eb;
+  --primary-color:#64736b; --primary-light:#d0e4e6;
+  --gray-100:#3e5149; --gray-400:#64736b;
+}
+body { background-image:none; }
+::selection { background:var(--mauve); color:var(--coal); }
+
+/* Clear pastel surfaces inspired by the latest reference. */
+:root {
+  --pastel-green:#d6e4cc; --pastel-yellow:#f5e6c8;
+  --pastel-pink:#f3d3c9; --pastel-blue:#d0e4e6;
+  --paper:#fff7ec; --main-background:#f8f3eb;
+  --mauve:var(--pastel-pink); --desiree:var(--pastel-blue);
+  --lemon-paper:var(--pastel-yellow); --jet-stream:var(--pastel-green);
+  --opal:var(--pastel-blue); --vanilla:#e7dfc6;
+  --primary-light:var(--pastel-blue);
+  --sky-100:#e3eef0; --sky-200:var(--paper);
+  --project-transition-blue:var(--pastel-blue);
+  --project-transition-lavender:var(--pastel-pink);
+  --project-transition-mist:var(--pastel-yellow);
+}
+::selection { background:var(--pastel-green); color:var(--ink); }
+
+/* Soft clay surfaces — reference palette 1, 2 and 3. */
+:root {
+  --clay-cream:#fff3e3; --clay-peach:#f3c7b6; --clay-blush:#f2d1cc;
+  --clay-sage:#afc6aa; --clay-mint:#bfd9cd; --clay-blue:#c3dde1;
+  --paper:#fff7ec; --main-background:#f8f3eb;
+  --ink:#3e5149; --coal:#3e5149; --gray-100:#3e5149; --gray-400:#64736b;
+  --primary-color:#547362; --primary-light:#bfd9cd;
+  --pastel-green:#d6e4cc; --pastel-yellow:#f5e6c8; --pastel-pink:#f3d3c9; --pastel-blue:#d0e4e6;
+  --mauve:var(--clay-blush); --desiree:var(--clay-mint);
+  --lemon-paper:var(--clay-cream); --jet-stream:var(--clay-mint);
+  --opal:var(--clay-blue); --vanilla:#dfd6c8; --sky-100:#e4eee7; --sky-200:#fff7ec;
+  --clay-border:1px solid rgba(255,255,255,.72);
+  --clay-shadow: 10px 13px 26px rgba(100,91,73,.10), -6px -6px 18px rgba(255,255,255,.78), inset 1px 1px 2px rgba(255,255,255,.9), inset -2px -2px 4px rgba(117,103,82,.035);
+  --box-shadow:var(--clay-shadow);
+  --project-transition-blue:var(--clay-mint);
+  --project-transition-lavender:var(--clay-blush);
+  --project-transition-mist:var(--clay-cream);
+}
+body { background-color:var(--main-background); }
+
+/* Balanced clay surfaces: cream is an accent, not the default card colour. */
+:root {
+  --surface-neutral:#fbf9f4; --surface-mint:#e0ece4;
+  --surface-peach:#f5ded4; --surface-blue:#dfedf0;
+  --paper:var(--surface-neutral);
+  --clay-shadow:7px 10px 22px rgba(85,100,90,.08),-4px -4px 14px rgba(255,255,255,.75),inset 1px 1px 2px rgba(255,255,255,.85);
 }

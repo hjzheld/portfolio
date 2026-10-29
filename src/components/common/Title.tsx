@@ -15,7 +15,7 @@ const BackButton = styled(motion.button)`
     height: 40px;
     padding: 0;
     background: transparent;
-    border: 2px solid rgba(118, 164, 218, 0.3);
+    border: 2px solid rgba(133, 129, 133, 0.3);
     border-radius: 12px;
     transition: all 0.3s ease;
     position: relative;
@@ -36,7 +36,7 @@ const BackButton = styled(motion.button)`
     }
     
     &:hover {
-        background: rgba(118, 164, 218, 0.1);
+        background: rgba(133, 129, 133, 0.1);
         border-color: var(--primary-color);
         transform: translateX(-4px);
         

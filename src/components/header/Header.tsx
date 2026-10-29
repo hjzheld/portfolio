@@ -110,10 +110,7 @@ const Nav = styled.nav<{
 
     border:
       1px solid
-      rgba(
-        118,
-        164,
-        218,
+      rgba(133, 129, 133,
         0.16
       );
 
@@ -121,10 +118,7 @@ const Nav = styled.nav<{
       16px;
 
     background:
-      rgba(
-        241,
-        248,
-        255,
+      rgba(251, 246, 249,
         0.96
       );
 
@@ -132,10 +126,7 @@ const Nav = styled.nav<{
       0
       14px
       35px
-      rgba(
-        118,
-        164,
-        218,
+      rgba(133, 129, 133,
         0.16
       );
 
@@ -295,15 +286,12 @@ const NavItem = styled(
     background:
       ${({ $active }) =>
         $active
-          ? "rgba(118, 164, 218, 0.08)"
+          ? "rgba(133, 129, 133, 0.08)"
           : "transparent"};
 
     &:hover {
       background:
-        rgba(
-          118,
-          164,
-          218,
+        rgba(133, 129, 133,
           0.08
         );
     }
@@ -346,7 +334,7 @@ const MenuButton = styled.button<{
     1px solid
     ${({ $open }) =>
       $open
-        ? "rgba(118, 164, 218, 0.22)"
+        ? "rgba(133, 129, 133, 0.22)"
         : "transparent"};
 
   border-radius:
@@ -355,7 +343,7 @@ const MenuButton = styled.button<{
   background:
     ${({ $open }) =>
       $open
-        ? "rgba(118, 164, 218, 0.08)"
+        ? "rgba(133, 129, 133, 0.08)"
         : "transparent"};
 
   color:
@@ -382,10 +370,7 @@ const MenuButton = styled.button<{
       var(--primary-color);
 
     background:
-      rgba(
-        118,
-        164,
-        218,
+      rgba(133, 129, 133,
         0.08
       );
   }
@@ -485,21 +470,13 @@ const MenuIcon = ({
    TYPE
 ========================================================= */
 
-interface HeaderProps {
-  PageName?: string;
 
-  menuName?:
-    | string
-    | string[];
-}
 
 /* =========================================================
    COMPONENT
 ========================================================= */
 
-const Header = (
-  {}: HeaderProps = {},
-) => {
+const Header = () => {
   const navigate =
     useNavigate();
 
@@ -529,7 +506,7 @@ const Header = (
 
     {
       path: "/project",
-      label: "프로젝트",
+      label: "포트폴리오",
     },
   ];
 

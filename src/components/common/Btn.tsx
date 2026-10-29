@@ -26,12 +26,12 @@ const CategoryBtnStyle = styled(motion.button)<{ active?: boolean }>`
   border-radius: 50px;
   border: 3px solid;
   border-color: ${({ active }) => ( active ? 'var(--primary-color)' : 'var(--gray-200)')};
-  background: ${({ active }) => ( active ? 'var(--primary-color)' : 'transparent')};
-  color: ${({ active }) => ( active? 'var(--white-100)' : 'var(--gray-100)')};
+  background: ${({ active }) => ( active ? 'var(--clay-mint)' : 'var(--surface-neutral)')};
+  color: ${({ active }) => ( active? 'var(--ink)' : 'var(--gray-100)')};
   font-weight: 400;
   font-size: 1rem;
   white-space: nowrap;
-  transition: all 0.3s ease;
+  transition: background .25s ease, border-color .25s ease, box-shadow .25s ease;
   
   @media (max-width: 768px) {
     padding: 8px 24px;
@@ -60,11 +60,11 @@ const CategoryBtn = ({ tab, active, onClick }: BtnNameProps) => {
       animate={{ borderColor: active ? 'var(--primary-color)' : 'var(--gray-200)' }}
       whileHover={{
         borderColor: 'var(--primary-color)',
-        scale: 1.05,
+        scale: 1.025,
         transition: { duration: 0.3 }
       }}
       whileTap={{
-          scale: 0.95
+          scale: 0.97
       }}
     >
       { tab.title }
@@ -89,7 +89,7 @@ const SubBtnStyle = styled(motion.button)<{ active?: boolean }>`
   font-weight: ${({ active }) => ( active ? '600' : '400')};
   font-size: 1rem;
   white-space: nowrap;
-  transition: all 0.3s ease;
+  transition: background .25s ease, border-color .25s ease, box-shadow .25s ease;
   
   @media (max-width: 768px) {
     font-size: 0.9rem;
@@ -127,11 +127,11 @@ const SubCategory = ({ tab, active, selectedSub, onClick }: SubBtnProps) => {
               whileHover={{
                 borderBottom: '2px solid',
                 borderColor: 'var(--primary-color)',
-                scale: 1.05,
+                scale: 1.025,
                 transition: { duration: 0.3 }
               }}
               whileTap={{
-                scale: 0.95
+                scale: 0.97
             }}
             >
               {subTitle.title}
@@ -158,7 +158,7 @@ const CloseBtnStyle = styled(motion.button)`
   font-weight: 400;
   font-size: 1rem;
   white-space: nowrap;
-  transition: all 0.3s ease;
+  transition: background .25s ease, border-color .25s ease, box-shadow .25s ease;
   
   @media (max-width: 768px) {
     margin: 0.75rem;
@@ -187,11 +187,11 @@ const CloseBtn = ({ onClick }: CloseBtnProps) => {
       onClick={() => onClick()}
       whileHover={{
         borderColor: 'var(--primary-color)',
-        background: 'var(--primary-color)',
+        background: 'var(--clay-mint)',
         transition: { duration: 0.1 }
       }}
       whileTap={{
-          scale: 0.95
+          scale: 0.97
       }}
     >
       Close
@@ -209,13 +209,13 @@ interface GradientBtnProps {
 const GradientBtnWrapper = styled(motion.button)`
   padding: 10px 30px;
   border-radius: 15px;
-  border: 3px solid transparent;
+  border:var(--clay-border);
   position: relative;
   overflow: hidden;
-  background: linear-gradient(90deg, #76a4da, #bebcd8, #76a4da);
+  background:var(--clay-mint);
   background-size: 200% auto;
-  box-shadow: 0 4px 6px rgba(118, 164, 218, 0.3);
-  transition: all 0.3s ease;
+  box-shadow:var(--clay-shadow);
+  transition: background .25s ease, border-color .25s ease, box-shadow .25s ease;
   
   &::before {
     content: '';
@@ -224,12 +224,12 @@ const GradientBtnWrapper = styled(motion.button)`
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 251, 253, 0.3), transparent);
     transition: left 0.5s ease;
   }
   
   &:hover {
-    box-shadow: 0 8px 20px rgba(118, 164, 218, 0.6);
+    box-shadow: 0 8px 20px rgba(185, 130, 146, 0.18);
     
     &::before {
       left: 100%;
@@ -240,11 +240,11 @@ const GradientBtnWrapper = styled(motion.button)`
 const GradientBtnText = styled(motion.span)`
   font-size: 1rem;
   font-weight: 600;
-  color: var(--white-100);
+  color: var(--coal);
   display: inline-block;
   position: relative;
   z-index: 1;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: none;
 `;
 
 const GradientBtn = ({
@@ -256,34 +256,18 @@ const GradientBtn = ({
     <GradientBtnWrapper
       className={className}
       onClick={onClick}
-      animate={{
-        backgroundPosition: [
-          "0% 50%",
-          "100% 50%",
-          "0% 50%",
-        ],
-      }}
-      transition={{
-        duration: 3,
-        repeat: Infinity,
-        ease: "linear",
-      }}
-      style={{
-        backgroundPosition:
-          "0% 50%",
-      }}
       whileHover={{
-        scale: 1.08,
+        scale: 1.025,
         y: -2,
         boxShadow:
-          "0 12px 24px rgba(118, 164, 218, 0.7)",
+          "0 8px 16px rgba(84,115,98,.14)",
         transition: {
           duration: 0.3,
           ease: "easeOut",
         },
       }}
       whileTap={{
-        scale: 0.95,
+        scale: 0.97,
         y: 0,
       }}
     >

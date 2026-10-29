@@ -12,7 +12,9 @@ interface CardProps {
   onClick?: () => void;
 }
 
-const CardStyle = styled(motion.div)`
+const CardStyle = styled(motion.button)`
+  text-align: left;
+  cursor: pointer;
   width: 100%;
   height: 100%;
   padding: 2rem;
@@ -24,8 +26,8 @@ const CardStyle = styled(motion.div)`
   justify-content: space-between;
   min-height: 200px;
   
-  color: var(--white-100);
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  color: var(--coal);
+  background: linear-gradient(135deg, var(--mauve), var(--desiree));
 
   border-radius: 10px;
   box-shadow: var(--box-shadow);
@@ -130,6 +132,7 @@ const TagStyle = styled.div`
 const Card = ({ project, onClick }: CardProps) => {
   return (
     <CardStyle
+      type="button"
       onClick = { onClick }
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}

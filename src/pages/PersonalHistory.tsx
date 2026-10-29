@@ -1,4 +1,7 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import ClayCompanion from "@/components/common/ClayCompanion";
+import useFirstPageVisit from "@/hooks/useFirstPageVisit";
 import { motion, type Variants } from "framer-motion";
 import { useRef } from "react";
 
@@ -33,7 +36,7 @@ const IntroMark = styled.div`
   align-items: center;
   justify-content: center;
   gap: 0.65rem;
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--ink);
   font-family: var(--font-en);
   font-size: 0.72rem;
   font-weight: 500;
@@ -44,7 +47,7 @@ const IntroMark = styled.div`
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--primary-color);
   }
 
   @media (max-width: 480px) {
@@ -96,9 +99,9 @@ const SectionLine = styled.div`
   margin-bottom: 3.5rem;
   background: linear-gradient(
     90deg,
-    rgba(118, 164, 218, 0),
-    rgba(118, 164, 218, 0.36),
-    rgba(118, 164, 218, 0)
+    rgba(249, 220, 229, 0),
+    rgba(249, 220, 229, 0.36),
+    rgba(249, 220, 229, 0)
   );
   transform-origin: left;
 
@@ -109,33 +112,30 @@ const SectionLine = styled.div`
 
 const SectionHeader = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   align-items: end;
   gap: 1rem;
   margin-bottom: 2.5rem;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
     margin-bottom: 2rem;
   }
 `;
 
 const SectionHeaderLeft = styled.div`
+  min-width:0;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 `;
 
-const SectionLabel = styled.span`
-  color: var(--primary-color);
-  font-family: var(--font-en);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-`;
 
 const SectionTitle = styled.h2`
+  min-width:0; word-break:keep-all; overflow-wrap:anywhere;
+  @media(max-width:480px) { && { font-size:clamp(1.5rem,6.2vw,1.9rem); line-height:1.4; } }
+
   color: var(--gray-100);
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1.2;
@@ -158,21 +158,30 @@ const SectionDescription = styled.p`
 ========================================================= */
 
 const Hero = styled.section`
+  &&&& { background:var(--surface-mint); }
+  .career-friends { display:flex; justify-content:flex-end; align-items:flex-end; gap:.7rem; margin-top:1rem; margin-bottom:-.5rem; }
+
+  &&& { background:var(--clay-cream); border:var(--clay-border); border-radius:34px; box-shadow:var(--clay-shadow); }
+
+  && { background:var(--lemon-paper); border:1px solid var(--vanilla); border-radius:28px; box-shadow:0 12px 28px rgba(78, 81, 85,.07); }
+  &&::before { border-radius:50%; width:180px; height:180px; top:-60px; right:-30px; background:rgba(220, 236, 248,.3); }
+  &&::after { display:none; }
+
   position: relative;
   width: 100%;
   margin-top: 1.5rem;
   padding: clamp(2rem, 5vw, 4.8rem);
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(255, 251, 253, 0.65);
   border-radius: 34px;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.7),
-    rgba(241, 248, 255, 0.58)
+    rgba(255, 251, 253, 0.7),
+    rgba(251, 246, 249, 0.58)
   );
   box-shadow:
     0 24px 60px rgba(99, 99, 99, 0.08),
-    0 8px 24px rgba(118, 164, 218, 0.12);
+    0 8px 24px rgba(133, 129, 133, 0.12);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 
@@ -189,7 +198,7 @@ const Hero = styled.section`
     height: 320px;
     right: -110px;
     top: -130px;
-    background: rgba(118, 164, 218, 0.13);
+    background: rgba(133, 129, 133, 0.13);
   }
 
   &::after {
@@ -197,7 +206,7 @@ const Hero = styled.section`
     height: 220px;
     left: -90px;
     bottom: -120px;
-    background: rgba(190, 188, 216, 0.16);
+    background: rgba(220, 236, 248, 0.16);
   }
 
   @media (max-width: 768px) {
@@ -212,33 +221,6 @@ const Hero = styled.section`
   }
 `;
 
-const HeroBadge = styled.div`
-  position: relative;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  width: fit-content;
-  gap: 0.55rem;
-  margin-bottom: 1.35rem;
-  padding: 0.48rem 0.82rem;
-  border: 1px solid rgba(118, 164, 218, 0.16);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.48);
-  color: var(--gray-400);
-  font-family: var(--font-en);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-
-  &::before {
-    content: "";
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--primary-color);
-    box-shadow: 0 0 0 5px rgba(118, 164, 218, 0.1);
-  }
-`;
 
 const HeroTitle = styled.h1`
   position: relative;
@@ -304,22 +286,27 @@ const SummaryGrid = styled.div`
   }
 
   @media (max-width: 480px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     margin-top: 2.2rem;
   }
 `;
 
 const SummaryItem = styled.div`
+  && { background:var(--surface-neutral); border:var(--clay-border); box-shadow:inset 2px 2px 4px rgba(255,255,255,.65),3px 5px 9px rgba(85,100,90,.05); }
+  &&:nth-child(2) { background:var(--surface-peach); }
+  &&:nth-child(3) { background:var(--surface-blue); }
+  &&:nth-child(4) { background:#f2ead9; }
+
   min-height: 118px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 1.5rem;
   padding: 1.2rem 1.25rem;
-  border: 1px solid rgba(118, 164, 218, 0.14);
+  border: 1px solid rgba(133, 129, 133, 0.14);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.46);
-  box-shadow: 0 8px 24px rgba(118, 164, 218, 0.08);
+  background: rgba(255, 251, 253, 0.46);
+  box-shadow: 0 8px 24px rgba(133, 129, 133, 0.08);
 
   @media (max-width: 480px) {
     min-height: 96px;
@@ -370,9 +357,9 @@ const KeywordList = styled.div`
 
 const Keyword = styled.span`
   padding: 0.58rem 0.9rem;
-  border: 1px solid rgba(118, 164, 218, 0.12);
+  border: 1px solid rgba(133, 129, 133, 0.12);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.38);
+  background: rgba(255, 251, 253, 0.38);
   color: var(--gray-400);
   font-size: 0.78rem;
   backdrop-filter: blur(8px);
@@ -382,8 +369,8 @@ const Keyword = styled.span`
   &:hover {
     transform: translateY(-2px);
     color: var(--gray-100);
-    border-color: rgba(118, 164, 218, 0.3);
-    background: rgba(241, 248, 255, 0.75);
+    border-color: rgba(133, 129, 133, 0.3);
+    background: rgba(251, 246, 249, 0.75);
   }
 `;
 
@@ -392,31 +379,28 @@ const Keyword = styled.span`
 ========================================================= */
 
 const GlassCard = styled(motion.article)`
-  border: 1px solid rgba(255, 255, 255, 0.72);
+  min-width:0; max-width:100%; overflow-wrap:anywhere;
+  && { border:var(--clay-border); border-radius:28px; background:var(--surface-neutral); box-shadow:var(--clay-shadow); backdrop-filter:none; }
+
+  border: 1px solid rgba(255, 251, 253, 0.72);
   border-radius: 24px;
   background: linear-gradient(
     145deg,
-    rgba(255, 255, 255, 0.66),
-    rgba(241, 248, 255, 0.46)
+    rgba(255, 251, 253, 0.66),
+    rgba(251, 246, 249, 0.46)
   );
   box-shadow:
     0 16px 40px rgba(99, 99, 99, 0.06),
-    0 4px 14px rgba(118, 164, 218, 0.08);
+    0 4px 14px rgba(133, 129, 133, 0.08);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 `;
 
-const CardEyebrow = styled.span`
-  display: block;
-  margin-bottom: 0.75rem;
-  color: var(--primary-color);
-  font-family: var(--font-en);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-`;
 
 const CardTitle = styled.h3`
+  overflow-wrap:anywhere;
+  @media(max-width:480px) { && { font-size:1.08rem; line-height:1.55; } }
+
   color: var(--gray-100);
   font-size: 1.22rem;
   line-height: 1.45;
@@ -455,7 +439,7 @@ const BulletItem = styled.li`
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background: rgba(118, 164, 218, 0.9);
+    background: rgba(133, 129, 133, 0.9);
   }
 `;
 
@@ -468,9 +452,9 @@ const TagList = styled.div`
 
 const Tag = styled.span`
   padding: 0.4rem 0.65rem;
-  border: 1px solid rgba(118, 164, 218, 0.13);
+  border: 1px solid rgba(133, 129, 133, 0.13);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 251, 253, 0.45);
   color: var(--gray-400);
   font-family: var(--font-en);
   font-size: 0.67rem;
@@ -490,18 +474,22 @@ const CompetencyGrid = styled.div`
   }
 
   @media (max-width: 560px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 `;
 
 const CompetencyCard = styled(GlassCard)`
+  &&&& { background:var(--surface-blue); }
+  &&&&:nth-child(3n+2) { background:var(--surface-mint); }
+  &&&&:nth-child(3n) { background:var(--surface-peach); }
+
   min-height: 235px;
   padding: 1.5rem;
   transition: 0.25s ease;
 
   &:hover {
     transform: translateY(-4px);
-    border-color: rgba(118, 164, 218, 0.28);
+    border-color: rgba(133, 129, 133, 0.28);
   }
 `;
 
@@ -535,6 +523,10 @@ const CompetencyDescription = styled.p`
 ========================================================= */
 
 const CareerSummaryCard = styled(GlassCard)`
+  &&&& { background:var(--surface-blue); }
+  &&&&:nth-child(3n+2) { background:var(--surface-mint); }
+  &&&&:nth-child(3n) { background:var(--surface-peach); }
+
   padding: 2.2rem;
 
   @media (max-width: 560px) {
@@ -547,10 +539,10 @@ const CareerSummaryHeader = styled.div`
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(118, 164, 218, 0.15);
+  border-bottom: 1px solid rgba(133, 129, 133, 0.15);
 
   @media (max-width: 650px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
   }
 `;
@@ -579,7 +571,7 @@ const CareerDate = styled.div`
     margin-top: 0.65rem;
     padding: 0.35rem 0.62rem;
     border-radius: 999px;
-    background: rgba(118, 164, 218, 0.1);
+    background: rgba(133, 129, 133, 0.1);
     color: var(--primary-color);
     font-size: 0.64rem;
     font-weight: 600;
@@ -592,7 +584,7 @@ const CareerDate = styled.div`
 
 const CareerSummaryBody = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
   margin-top: 1.5rem;
 `;
@@ -612,9 +604,9 @@ const MiniMetricGrid = styled.div`
 
 const MiniMetric = styled.div`
   padding: 0.9rem;
-  border: 1px solid rgba(118, 164, 218, 0.11);
+  border: 1px solid rgba(133, 129, 133, 0.11);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 251, 253, 0.4);
 
   span {
     display: block;
@@ -643,11 +635,47 @@ const ProjectGrid = styled.div`
   gap: 1rem;
 
   @media (max-width: 800px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 `;
 
+const DetailAction = styled(Link)`
+  min-width:0; line-height:1.6; overflow-wrap:anywhere;
+  span { flex-shrink:0; }
+  @media(max-width:480px) { &&& { padding:.85rem; font-size:.8rem; } }
+
+  &&& { background:var(--clay-cream); border:var(--clay-border); border-radius:18px; box-shadow:inset 2px 2px 5px rgba(255,255,255,.9),3px 4px 9px rgba(90,96,78,.08); color:var(--ink); }
+  &&& span { background:var(--clay-mint); border-radius:50%; box-shadow:inset 1px 1px 3px rgba(255,255,255,.6); }
+
+  && { border-radius:12px; border:1px solid var(--sage); background:transparent; color:var(--ink); }
+  &&:hover { background:var(--jet-stream); }
+  && span { background:var(--jet-stream); border-radius:3px; }
+
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  margin-top: 1.5rem; padding: 1rem 1.1rem; border: 1px solid rgba(133, 129, 133,.35);
+  border-radius: 12px; background: rgba(255, 251, 253,.6); color: #3e5149;
+  font-size: .85rem; font-weight: 600; transition: background .2s, border-color .2s;
+  span { display:grid; place-items:center; width:30px; height:30px; border-radius:50%; background:#f3d3c9; font-size:1.15rem; }
+  &:hover { background:#f5e6c8; border-color:#64736b; }
+`;
+
 const SelectedProjectCard = styled(GlassCard)`
+  &&&& { background:var(--surface-blue); }
+  &&&&:nth-child(4n+2) { background:var(--surface-mint); }
+  &&&&:nth-child(4n+3) { background:var(--surface-peach); }
+  &&&&:nth-child(4n+4) { background:var(--surface-neutral); }
+
+  &&& { border:var(--clay-border); border-radius:28px; box-shadow:var(--clay-shadow); background:var(--clay-cream); }
+  &&&:nth-child(4n+2) { background:#e1ece5; }
+  &&&:nth-child(4n+3) { background:#f5ded4; }
+  &&&:nth-child(4n+4) { background:#dfedf0; }
+
+  && { border-radius:24px; border:1px solid var(--vanilla); background:var(--paper); box-shadow:0 10px 20px rgba(78, 81, 85,.06); }
+  &:nth-child(4n+1) { background:#e4eddd; }
+  &:nth-child(4n+2) { background:#f7edda; }
+  &:nth-child(4n+3) { background:#f7e4dc; }
+  &:nth-child(4n+4) { background:#e3eef0; }
+
   position: relative;
   padding: 1.7rem;
   overflow: hidden;
@@ -659,7 +687,7 @@ const SelectedProjectCard = styled(GlassCard)`
     top: 1.4rem;
     bottom: 1.4rem;
     width: 2px;
-    background: rgba(118, 164, 218, 0.72);
+    background: rgba(133, 129, 133, 0.72);
     border-radius: 999px;
   }
 `;
@@ -672,8 +700,9 @@ const ProjectTop = styled.div`
 `;
 
 const ProjectNumber = styled.span`
+  display:flex; align-items:center; gap:.5rem;
   flex-shrink: 0;
-  color: rgba(118, 164, 218, 0.55);
+  color: rgba(133, 129, 133, 0.55);
   font-family: var(--font-en);
   font-size: 1.8rem;
   font-weight: 700;
@@ -683,9 +712,9 @@ const ProjectNumber = styled.span`
 const ProjectHighlight = styled.div`
   margin-top: 1.25rem;
   padding: 0.95rem 1rem;
-  border: 1px solid rgba(118, 164, 218, 0.12);
+  border: 1px solid rgba(133, 129, 133, 0.12);
   border-radius: 14px;
-  background: rgba(118, 164, 218, 0.06);
+  background: rgba(133, 129, 133, 0.06);
   color: var(--gray-100);
   font-size: 0.8rem;
   font-weight: 600;
@@ -702,11 +731,23 @@ const OtherGrid = styled.div`
   gap: 0.9rem;
 
   @media (max-width: 700px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 `;
 
 const OtherCard = styled(GlassCard)`
+  &&&& { background:var(--surface-blue); }
+  &&&&:nth-child(4n+2) { background:var(--surface-mint); }
+  &&&&:nth-child(4n+3) { background:var(--surface-peach); }
+  &&&&:nth-child(4n+4) { background:var(--surface-neutral); }
+
+  &&& { border:var(--clay-border); border-radius:28px; box-shadow:var(--clay-shadow); background:var(--clay-cream); }
+  &&&:nth-child(4n+2) { background:#e1ece5; }
+  &&&:nth-child(4n+3) { background:#f5ded4; }
+  &&&:nth-child(4n+4) { background:#dfedf0; }
+
+  && { border-radius:24px; border:1px solid var(--vanilla); background:var(--paper); }
+
   padding: 1.35rem;
 `;
 
@@ -720,11 +761,17 @@ const SupportingGrid = styled.div`
   gap: 1rem;
 
   @media (max-width: 800px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 `;
 
 const SupportingCard = styled(GlassCard)<{ $wide?: boolean }>`
+  @media(max-width:480px) { && { padding:1.25rem; } }
+
+  &&&& { background:var(--surface-blue); }
+  &&&&:nth-child(3n+2) { background:var(--surface-mint); }
+  &&&&:nth-child(3n) { background:var(--surface-peach); }
+
   grid-column: ${({ $wide }) => ($wide ? "1 / -1" : "auto")};
   padding: 1.7rem;
 
@@ -749,7 +796,7 @@ const FlowStep = styled.span`
 
   &:not(:last-child)::after {
     content: "→";
-    color: rgba(118, 164, 218, 0.65);
+    color: rgba(133, 129, 133, 0.65);
   }
 `;
 
@@ -763,11 +810,15 @@ const PreviousGrid = styled.div`
   gap: 1rem;
 
   @media (max-width: 700px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 `;
 
 const PreviousCard = styled(GlassCard)`
+  &&&& { background:var(--surface-blue); }
+  &&&&:nth-child(3n+2) { background:var(--surface-mint); }
+  &&&&:nth-child(3n) { background:var(--surface-peach); }
+
   padding: 1.5rem;
 `;
 
@@ -795,16 +846,16 @@ const BottomMessage = styled.div`
   margin-top: 5rem;
   padding: 3rem;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(255, 251, 253, 0.65);
   border-radius: 26px;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.54),
-    rgba(216, 224, 230, 0.58)
+    rgba(255, 251, 253, 0.54),
+    rgba(249, 220, 229, 0.58)
   );
   box-shadow:
     0 16px 40px rgba(99, 99, 99, 0.06),
-    0 5px 18px rgba(118, 164, 218, 0.09);
+    0 5px 18px rgba(133, 129, 133, 0.09);
 
   &::after {
     content: "";
@@ -814,7 +865,7 @@ const BottomMessage = styled.div`
     right: -70px;
     top: -100px;
     border-radius: 50%;
-    background: rgba(118, 164, 218, 0.12);
+    background: rgba(133, 129, 133, 0.12);
   }
 
   h2,
@@ -826,7 +877,7 @@ const BottomMessage = styled.div`
   h2 {
     margin-bottom: 0.8rem;
     color: var(--gray-100);
-    font-size: clamp(1.5rem, 3vw, 2.2rem);    
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
     letter-spacing: -0.04em;
   }
 
@@ -850,7 +901,7 @@ const BottomMessage = styled.div`
 ========================================================= */
 
 const summaryStats = [
-  ["EXPERIENCE", "2+ Years"],
+  ["EXPERIENCE", "2024.01 ~ ing [2+ Years]"],
   ["MAIN ROLE", "Frontend"],
   ["SCOPE", "Full-cycle"],
   ["TEAM", "Lead · QA"],
@@ -916,7 +967,8 @@ const coreCompetencies = [
 const careerSummaryBullets = [
   "Vue.js·Nuxt.js 기반 사용자 및 관리자 페이지 개발",
   "신규 기능 개발 시 상태 관리·라우팅·API 흐름까지 고려해 기능 구조 설계",
-  "신규 프로젝트 초기 구조, 인증·라우팅·공통 컴포넌트 설계",
+  "프로젝트별 초기 구조 설계, Git 저장소 연결과 테스트·운영 환경 구성",
+  "버튼·카드·모달 등 재사용 가능한 공통 컴포넌트 설계·구현",
   "결제·구독·할인·사용자 권한 및 접근 제어 로직 구현",
   "REST API·WebSocket 연동 및 금융 데이터 시각화",
   "외주·운영 서비스 인수, 리팩토링, 컨버팅 및 전면 리뉴얼",
@@ -929,6 +981,7 @@ const careerSummaryBullets = [
 const selectedProjects = [
   {
     title: "Nuxt 기반 가상자산 서비스 인수 및 구조 개선",
+    projectId: 102,
     subtitle: "외주 프로젝트 인수 · 인증 · 결제 · 권한 · 운영",
     bullets: [
       "외주 업체가 개발하던 대규모 Nuxt 프로젝트를 인수해 기존 코드와 실행 구조 분석",
@@ -943,20 +996,23 @@ const selectedProjects = [
   },
   {
     title: "교육 플랫폼 신규 구축 및 프론트엔드 구조 설계",
-    subtitle: "Figma · Architecture · Auth · Enrollment · Payment",
+    projectId: 101,
+    subtitle: "프로젝트 설계 · Git · 테스트/운영 환경 · 공통 UI",
     bullets: [
-      "로그인·회원가입·수강신청·결제·마이페이지 등 서비스 전반 화면 개발",
-      "초기 라우터·로그인 상태·API 연동·공통 컴포넌트 구조 설계",
+      "로그인·회원가입·수강신청·마이페이지 및 관리자 기수·출석 화면 개발",
+      "프로젝트 설계부터 Git 저장소 연결, 테스트 서버·운영 서버 연결까지 담당",
+      "초기 라우터·로그인 상태·API 연동 구조와 버튼·카드·모달 공통 컴포넌트 구현",
       "별도 퍼블리셔 없이 Figma 디자인 시안을 기준으로 UI 직접 구현",
       "Access/Refresh Token 인증 흐름 및 로그인 상태별 라우터 접근 제어 구성",
       "코드 컨벤션과 Oxfmt 포맷팅 환경을 도입해 코드 작성 기준 정리",
     ],
-    tags: ["Vue", "Figma", "Architecture", "REST API", "Oxfmt", "QA"],
+    tags: ["Vue", "프로젝트 설계", "Git", "공통 컴포넌트", "REST API", "배포 환경"],
     highlight:
-      "화면 구현뿐 아니라 프로젝트 시작 단계에서 개발 구조와 코드 기준까지 직접 설계",
+      "설계·저장소·테스트/운영 환경 연결부터 공통 UI와 서비스 화면까지 구축",
   },
   {
     title: "가상자산 데이터 시각화 대시보드 개발",
+    projectId: 103,
     subtitle: "TradingView · ZingChart · Responsive Data UI",
     bullets: [
       "TradingView·ZingChart를 활용해 총 8개의 차트와 2개의 데이터 리스트 구현",
@@ -969,6 +1025,7 @@ const selectedProjects = [
   },
   {
     title: "운영 서비스 전면 리뉴얼 및 권한·결제 구조 개선",
+    projectId: 107,
     subtitle: "Refactoring · State Flow · Authorization · Payment",
     bullets: [
       "기존 서비스의 권한 및 결제 시스템을 변경된 정책 기준으로 전면 재검토",
@@ -982,9 +1039,12 @@ const selectedProjects = [
   },
 ];
 
+selectedProjects.unshift(...selectedProjects.splice(1, 1));
+
 const otherExperiences = [
   {
     title: "Android WebView 서비스",
+    projectId: 106,
     bullets: [
       "알림 활성화·수신 항목 등록 기능 개발",
       "Vue I18n 기반 다국어 환경 구성",
@@ -993,6 +1053,7 @@ const otherExperiences = [
   },
   {
     title: "관리자 조직도 기능",
+    projectId: 108,
     bullets: [
       "회원 추천·조직 구조 관리 기능 개발",
       "상위 회원 변경 시 하위 조직 이동 로직 적용",
@@ -1001,6 +1062,7 @@ const otherExperiences = [
   },
   {
     title: "서비스 컨버팅",
+    projectId: 109,
     bullets: [
       "기존 Nuxt 서비스 구조와 기능을 새로운 서비스 정책에 맞게 변환",
       "공통 코드는 재사용하고 UI·권한·결제 정책 차이는 분리",
@@ -1009,6 +1071,7 @@ const otherExperiences = [
   },
   {
     title: "공통 컴포넌트 리팩토링",
+    projectId: 110,
     bullets: [
       "운영 중 확인된 중복 코드와 유지보수가 어려운 구조 개선",
       "공통 컴포넌트를 세분화하고 재사용 범위를 확대",
@@ -1029,6 +1092,16 @@ const yummyYagiFlow = [
   "User Feedback",
   "Improvement",
 ];
+
+const OptimizationResults = styled.div`
+  margin-top: 1.5rem;
+  h3 { margin-bottom: 1rem; color: var(--gray-100); font-size: 1.1rem; }
+  .table-scroll { width:100%; max-width:100%; min-width:0; overflow-x:auto; }
+  table { width: 100%; min-width: 340px; border-collapse: collapse; font-size: .85rem; color: var(--gray-100); }
+  th, td { text-align: left; padding: .8rem .6rem; border-bottom: 1px solid rgba(99,99,99,.2); line-height: 1.6; }
+  th { font-weight: 700; }
+  p { margin-top: 1rem; color: var(--gray-400); font-size: .85rem; line-height: 1.9; }
+`;
 
 const supportingExperiences = [
   {
@@ -1082,9 +1155,12 @@ const supportingExperiences = [
   {
     key: "performance",
     eyebrow: "PERFORMANCE & OPTIMIZATION",
-    title: "사용자 로딩 성능과 개발 환경을 함께 최적화",
-    text: "서비스 이용 중 발생하는 초기 로딩 부담과 개발 과정에서의 빌드·파일 감시 비용을 구분해 원인을 확인하고, 사용자 체감 성능과 개발 생산성을 각각 개선했습니다.",
+    title: "Vue Router Lazy Loading으로 메인 JS 번들 약 77.9% 감소",
+    text: "Vue 3·Vite 프로젝트에서 500KB 초과 청크 경고를 분석했습니다. 페이지 컴포넌트의 정적 import를 Dynamic Import로 바꾸고, 54개 페이지 및 하위 화면에 Route-level Lazy Loading을 적용해 메인 JS를 1,414.26KB에서 약 312KB로 분리했습니다.",
     bullets: [
+      "Vue Router 페이지 컴포넌트를 () => import(...) 방식으로 변경해 페이지 접근 시 필요한 코드를 비동기 로드",
+      "54개 페이지·하위 화면을 코드 분할해 78개 청크로 구성하고 기존 라우팅 경로·리다이렉트·인증 로직 유지",
+      "프로덕션 빌드 기준 메인 JS 약 77.9% 감소, 메인 gzip 336.68KB → 75.19KB, 500KB 초과 경고 해소",
       "초기 화면 렌더링에 필요한 핵심 이미지는 우선 로드하고, 즉시 필요하지 않은 이미지는 Lazy Loading으로 분리해 초기 로딩 부담 감소",
       "CRA 기반 프로젝트를 Vite로 전환해 개발 서버 구동과 HMR 환경을 개선하고 반복 개발 시 발생하는 대기 시간 감소",
       "node_modules·.git·빌드 산출물 등 개발에 불필요한 경로를 파일 감시 대상에서 제외해 개발 환경의 리소스 사용 감소",
@@ -1092,6 +1168,10 @@ const supportingExperiences = [
       "단순히 최적화 기법을 적용하는 데 그치지 않고 사용자 로딩과 개발 환경의 병목을 구분한 뒤 각 문제에 맞는 개선 방법 적용",
     ],
     tags: [
+      "Vue 3",
+      "Vue Router",
+      "Dynamic Import",
+      "Code Splitting",
       "Lazy Loading",
       "Vite",
       "HMR",
@@ -1171,10 +1251,13 @@ const motionProps = {
 ========================================================= */
 
 export const PersonalHistory = () => {
+  const firstVisit = useFirstPageVisit("career");
   const pageRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<SVGSVGElement>(null);
   const overlayPathRefs = useRef<Array<SVGPathElement | null>>([]);
   const introMarkRef = useRef<HTMLDivElement>(null);
+  const pageMotionProps = motionProps;
+
 
   useGSAP(
     () => {
@@ -1196,6 +1279,12 @@ export const PersonalHistory = () => {
       }
 
       const originalBodyOverflow = document.body.style.overflow;
+      if (!firstVisit) {
+        if (overlay) gsap.set(overlay, { autoAlpha: 0 });
+        if (introMarkRef.current) gsap.set(introMarkRef.current, { autoAlpha: 0 });
+      }
+
+      if (firstVisit) {
       document.body.style.overflow = "hidden";
 
       const numPoints = 10;
@@ -1278,17 +1367,15 @@ export const PersonalHistory = () => {
         });
       });
 
+      }
+
       const heroTl = gsap.timeline({
-        delay: 0.82,
+        delay: firstVisit ? 0.82 : 0,
         defaults: { ease: "power3.out" },
       });
 
       heroTl
-        .from(".career-badge", {
-          opacity: 0,
-          y: 12,
-          duration: 0.45,
-        })
+        .to({}, { duration: 0.45 })
         .from(
           ".career-title",
           {
@@ -1340,9 +1427,9 @@ export const PersonalHistory = () => {
 
   return (
     <Page ref={pageRef}>
-      <IntroMark ref={introMarkRef} aria-hidden="true">
+      <IntroMark ref={introMarkRef} aria-hidden="true" style={firstVisit ? undefined : { display: "none" }}>
         <span />
-        CAREER / EXPERIENCE
+        경력
       </IntroMark>
 
       <ShapeOverlay
@@ -1354,12 +1441,12 @@ export const PersonalHistory = () => {
       >
         <defs>
           <linearGradient id="careerOverlayBack" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#eef5fb" />
-            <stop offset="100%" stopColor="#bebcd8" />
+            <stop offset="0%" stopColor="#C3DDE1" />
+            <stop offset="100%" stopColor="#BFD9CD" />
           </linearGradient>
           <linearGradient id="careerOverlayFront" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#76a4da" />
-            <stop offset="100%" stopColor="#d8e0e6" />
+            <stop offset="0%" stopColor="#F3C7B6" />
+            <stop offset="100%" stopColor="#F2D1CC" />
           </linearGradient>
         </defs>
 
@@ -1384,7 +1471,7 @@ export const PersonalHistory = () => {
             HERO
         ================================================= */}
         <Hero>
-          <HeroBadge className="career-badge">Career & Experience</HeroBadge>
+
 
           <HeroTitle className="career-title">
             서비스 전체 흐름을 이해하며
@@ -1398,6 +1485,7 @@ export const PersonalHistory = () => {
             결제·권한과 같은 비즈니스 로직부터 리팩토링·오류 분석·QA까지 서비스 전체 흐름을 기준으로 문제를 해결합니다.
           </HeroDescription>
 
+          <div className="career-friends"><ClayCompanion tone="blue" size={54} round /><ClayCompanion tone="peach" size={42} /></div>
           <SummaryGrid>
             {summaryStats.map(([label, value]) => (
               <SummaryItem className="summary-item" key={`${label}-${value}`}>
@@ -1412,7 +1500,7 @@ export const PersonalHistory = () => {
             KEY EXPERIENCE
         ================================================= */}
         <KeywordSection>
-          <KeywordTitle>KEY EXPERIENCE</KeywordTitle>
+          <KeywordTitle>사용 기술</KeywordTitle>
           <KeywordList>
             {keywords.map((keyword) => (
               <Keyword key={keyword}>{keyword}</Keyword>
@@ -1427,7 +1515,7 @@ export const PersonalHistory = () => {
           <SectionLine className="section-line" />
           <SectionHeader>
             <SectionHeaderLeft>
-              <SectionLabel>01 / CORE COMPETENCY</SectionLabel>
+
               <SectionTitle>핵심 역량</SectionTitle>
             </SectionHeaderLeft>
             <SectionDescription>
@@ -1437,7 +1525,7 @@ export const PersonalHistory = () => {
 
           <CompetencyGrid>
             {coreCompetencies.map((item, index) => (
-              <CompetencyCard key={item.name} {...motionProps}>
+              <CompetencyCard key={item.name} {...pageMotionProps}>
                 <CompetencyIndex>{String(index + 1).padStart(2, "0")}</CompetencyIndex>
                 <CompetencyName>{item.name}</CompetencyName>
                 <CompetencyDescription>{item.description}</CompetencyDescription>
@@ -1453,19 +1541,19 @@ export const PersonalHistory = () => {
           <SectionLine className="section-line" />
           <SectionHeader>
             <SectionHeaderLeft>
-              <SectionLabel>02 / CAREER SUMMARY</SectionLabel>
+
               <SectionTitle>경력 요약</SectionTitle>
             </SectionHeaderLeft>
             <SectionDescription>
-              긴 프로젝트 이력을 모두 나열하기보다 현재 회사에서 맡아 온 역할과 책임을 먼저 빠르게 확인할 수 있도록 요약했습니다.
+              프로젝트 전반에서 반복해 맡은 설계·공통 UI·개발 환경 구성과 운영 역할을 정리했습니다.
             </SectionDescription>
           </SectionHeader>
 
-          <CareerSummaryCard {...motionProps}>
+          <CareerSummaryCard {...pageMotionProps}>
             <CareerSummaryHeader>
               <div>
                 <CareerCompany>블록스퀘어랩스</CareerCompany>
-                <CareerRole>Frontend Developer · Fullstack · Team Lead</CareerRole>
+                <CareerRole>Frontend Developer · API Integration · QA</CareerRole>
               </div>
               <CareerDate>
                 2024.01.15 ~ 재직중
@@ -1518,24 +1606,24 @@ export const PersonalHistory = () => {
           <SectionLine className="section-line" />
           <SectionHeader>
             <SectionHeaderLeft>
-              <SectionLabel>03 / SELECTED PROJECTS</SectionLabel>
+
               <SectionTitle>대표 프로젝트</SectionTitle>
             </SectionHeaderLeft>
             <SectionDescription>
-              프로젝트 수보다 문제의 복잡도와 주도성이 잘 드러나는 경험 4개를 선별했습니다.
+              회사에서 담당한 실무 프로젝트의 역할과 핵심 구현입니다. 구체적인 내용은 각 프로젝트 상세에서 확인할 수 있습니다.
             </SectionDescription>
           </SectionHeader>
 
           <ProjectGrid>
             {selectedProjects.map((project, index) => (
-              <SelectedProjectCard key={project.title} {...motionProps}>
+              <SelectedProjectCard key={project.title} {...pageMotionProps}>
                 <ProjectTop>
                   <div>
-                    <CardEyebrow>SELECTED PROJECT</CardEyebrow>
+
                     <CardTitle>{project.title}</CardTitle>
                     <CardText>{project.subtitle}</CardText>
                   </div>
-                  <ProjectNumber>{String(index + 1).padStart(2, "0")}</ProjectNumber>
+                  <ProjectNumber><ClayCompanion tone={index % 2 === 0 ? "mint" : "peach"} size={38} />{String(index + 1).padStart(2, "0")}</ProjectNumber>
                 </ProjectTop>
 
                 <BulletList>
@@ -1545,6 +1633,7 @@ export const PersonalHistory = () => {
                 </BulletList>
 
                 <ProjectHighlight>{project.highlight}</ProjectHighlight>
+                <DetailAction to={`/personal/work/${project.projectId}`}>구현 내용과 담당 범위<span aria-hidden="true">↗</span></DetailAction>
 
                 <TagList>
                   {project.tags.map((tag) => (
@@ -1563,7 +1652,7 @@ export const PersonalHistory = () => {
           <SectionLine className="section-line" />
           <SectionHeader>
             <SectionHeaderLeft>
-              <SectionLabel>04 / OTHER EXPERIENCE</SectionLabel>
+
               <SectionTitle>그 외 실무 경험</SectionTitle>
             </SectionHeaderLeft>
             <SectionDescription>
@@ -1573,13 +1662,15 @@ export const PersonalHistory = () => {
 
           <OtherGrid>
             {otherExperiences.map((experience) => (
-              <OtherCard key={experience.title} {...motionProps}>
+              <OtherCard key={experience.title} {...pageMotionProps}>
                 <CardTitle>{experience.title}</CardTitle>
+
                 <BulletList>
                   {experience.bullets.map((item) => (
                     <BulletItem key={item}>{item}</BulletItem>
                   ))}
                 </BulletList>
+                <DetailAction to={`/personal/work/${experience.projectId}`}>구현 내용과 담당 범위<span aria-hidden="true">↗</span></DetailAction>
               </OtherCard>
             ))}
           </OtherGrid>
@@ -1592,7 +1683,7 @@ export const PersonalHistory = () => {
           <SectionLine className="section-line" />
           <SectionHeader>
             <SectionHeaderLeft>
-              <SectionLabel>05 / SUPPORTING EXPERIENCE</SectionLabel>
+
               <SectionTitle>Supporting Experience</SectionTitle>
             </SectionHeaderLeft>
             <SectionDescription>
@@ -1605,9 +1696,9 @@ export const PersonalHistory = () => {
               <SupportingCard
                 key={experience.key}
                 $wide={experience.wide}
-                {...motionProps}
+                {...pageMotionProps}
               >
-                <CardEyebrow>{experience.eyebrow}</CardEyebrow>
+
                 <CardTitle>{experience.title}</CardTitle>
                 <CardText>{experience.text}</CardText>
 
@@ -1616,6 +1707,28 @@ export const PersonalHistory = () => {
                     <BulletItem key={item}>{item}</BulletItem>
                   ))}
                 </BulletList>
+
+                {experience.key === "backend" && <DetailAction to="/personal/work/105">데이터 집계·자동화 사례<span aria-hidden="true">↗</span></DetailAction>}
+
+                {experience.key === "performance" && (
+                  <OptimizationResults>
+                    <h3>페이지 단위 코드 분할 · 빌드 결과 비교</h3>
+                    <div className="table-scroll" role="region" aria-label="번들 최적화 결과" tabIndex={0}>
+                      <table>
+                        <caption style={{ textAlign: "left", marginBottom: ".75rem" }}>동일 프로젝트의 개선 전·후 프로덕션 빌드 기준</caption>
+                        <thead><tr><th scope="col">항목</th><th scope="col">개선 전</th><th scope="col">개선 후</th></tr></thead>
+                        <tbody>
+                          <tr><th scope="row">메인 JS 번들</th><td>1,414.26KB</td><td>약 312KB</td></tr>
+                          <tr><th scope="row">메인 gzip</th><td>336.68KB</td><td>75.19KB</td></tr>
+                          <tr><th scope="row">전체 JS 합계</th><td>1,414.26KB</td><td>1,452.70KB</td></tr>
+                          <tr><th scope="row">청크 구조</th><td>대형 번들 중심</td><td>78개 청크</td></tr>
+                          <tr><th scope="row">500KB 초과 경고</th><td>발생</td><td>해소</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <p>전체 JavaScript 합계가 감소한 결과가 아닙니다. 메인 번들을 페이지별로 나눠 초기 화면에서 내려받는 코드의 부담을 줄였습니다. 실제 LCP와 로딩 시간 개선 수치는 별도로 측정하지 않았습니다.</p>
+                  </OptimizationResults>
+                )}
 
                 {experience.key === "yummyyagi" && (
                   <FlowList aria-label="YummyYagi development flow">
@@ -1642,7 +1755,7 @@ export const PersonalHistory = () => {
           <SectionLine className="section-line" />
           <SectionHeader>
             <SectionHeaderLeft>
-              <SectionLabel>06 / PREVIOUS EXPERIENCE</SectionLabel>
+
               <SectionTitle>이전 경험</SectionTitle>
             </SectionHeaderLeft>
             <SectionDescription>
@@ -1652,7 +1765,7 @@ export const PersonalHistory = () => {
 
           <PreviousGrid>
             {previousExperiences.map((experience) => (
-              <PreviousCard key={experience.company} {...motionProps}>
+              <PreviousCard key={experience.company} {...pageMotionProps}>
                 <PreviousMeta>
                   <span>{experience.role}</span>
                   <span>{experience.date}</span>

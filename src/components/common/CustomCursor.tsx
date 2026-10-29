@@ -11,8 +11,8 @@ const CursorCircle = styled.div<{ $hover: boolean }>`
 
   border-radius: 50%;
 
-  border: 1px solid rgba(118, 164, 218, 0.7);
-  background: rgba(118, 164, 218, 0.08);
+  border: 1px solid rgba(133, 129, 133, 0.7);
+  background: rgba(133, 129, 133, 0.08);
 
   pointer-events: none;
   z-index: 99998;

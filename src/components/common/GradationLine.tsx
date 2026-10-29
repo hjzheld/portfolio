@@ -11,7 +11,7 @@ const GradientLine = styled.div<{ color?: 'primary' | 'gray' }>`
     ${({ color }) =>
       color === 'gray'
         ? 'var(--primary-gray)'
-        : 'var(--primary-color)'},
+        : 'var(--mauve)'},
     transparent
   );
 `;

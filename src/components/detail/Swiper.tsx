@@ -27,9 +27,9 @@ const NavButton = styled(motion.button)<{ direction: 'prev' | 'next' }>`
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 251, 253, 0.9);
   backdrop-filter: blur(10px);
-  border: 2px solid rgba(118, 164, 218, 0.3);
+  border: 2px solid rgba(133, 129, 133, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,9 +48,9 @@ const NavButton = styled(motion.button)<{ direction: 'prev' | 'next' }>`
   }
   
   &:hover {
-    background: rgba(255, 255, 255, 1);
+    background: rgba(255, 251, 253, 1);
     border-color: var(--primary-color);
-    box-shadow: 0 4px 12px rgba(118, 164, 218, 0.3);
+    box-shadow: 0 4px 12px rgba(133, 129, 133, 0.3);
     transform: translateY(-50%) scale(1.1);
   }
   

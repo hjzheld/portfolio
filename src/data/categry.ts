@@ -36,6 +36,10 @@ const categories: Categories[] = [
             },
         ],
         type: 'back'
+    },
+    {
+        title: '풀스택',
+        type: 'fullstack'
     }
 ]
 

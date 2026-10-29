@@ -1,168 +1,41 @@
-import styled from "styled-components";
-import { motion } from 'framer-motion';
-
-const LogoContainer = styled(motion.div)`
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+gsap.registerPlugin(useGSAP);
+const Brand = styled.button`
+  display:inline-flex; align-items:center; gap:.7rem; padding:0; border:0; background:transparent;
+  cursor:pointer; color:var(--ink); font-family:var(--font-en); text-align:left;
+  svg { width:49px; height:46px; flex-shrink:0; overflow:visible; }
+  .word { font-size:1.4rem; font-weight:700; letter-spacing:-.04em; }
+  @media(max-width:480px) { svg { width:43px; height:40px; } .word { font-size:1.25rem; } }
 `;
-
-const LogoSvg = styled.svg`
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-`;
-
-const LogoText = styled.div`
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    font-family: var(--font-en);
-    letter-spacing: -0.5px;
-`;
-
-interface LogoProps {
-    onClick?: () => void;
+interface LogoProps { onClick?:()=>void; }
+function BrandMark({ onClick, label }:LogoProps & {label:string}) {
+  const ref=useRef<HTMLButtonElement>(null);
+  const navigate=useNavigate();
+  const {contextSafe}=useGSAP(()=>{
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    gsap.from('.brand-pebble',{opacity:0,y:8,scale:.85,rotation:-12,transformOrigin:'50% 65%',duration:.65,stagger:.09,ease:'back.out(1.4)'});
+  },{scope:ref});
+  const greet=contextSafe(()=>{
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    const pieces=ref.current?.querySelectorAll('.brand-pebble');
+    if(!pieces)return;
+    gsap.timeline({defaults:{overwrite:'auto'}})
+      .to(pieces,{y:-3,rotation:5,duration:.2,stagger:.035,ease:'power2.out'})
+      .to(pieces,{y:0,rotation:0,duration:.4,stagger:.035,ease:'back.out(1.8)'})
+      .to(ref.current?.querySelectorAll('.brand-eyes') ?? [],{scaleY:.16,transformOrigin:'50% 50%',duration:.08,yoyo:true,repeat:1},0.18);
+  });
+  return <Brand ref={ref} type="button" aria-label="홈으로 이동" onClick={onClick ?? (()=>navigate('/'))} onPointerEnter={greet} onFocus={greet}>
+    <svg viewBox="0 0 54 48" aria-hidden="true" focusable="false">
+      <g className="brand-pebble"><path d="M3 26C0 15 6 5 17 4c10-2 18 5 18 16 1 11-7 20-17 20C8 42 4 36 3 26Z" fill="#BFD9CD"/><path d="M7 20C7 12 12 8 19 8" fill="none" stroke="#F5FBF7" strokeWidth="2" strokeLinecap="round" opacity=".8"/>
+      <g className="brand-eyes" fill="#3E5149"><ellipse cx="16" cy="24" rx="1.6" ry="2.6"/><ellipse cx="23" cy="24" rx="1.6" ry="2.6"/></g></g>
+      <g className="brand-pebble"><path d="M27 17c6-8 18-6 23 3 5 9 2 19-7 23-8 3-18-2-20-10-2-6 0-11 4-16Z" fill="#F3C7B6"/><path d="M30 19c4-4 10-4 14-1" fill="none" stroke="#FFF3E3" strokeWidth="2" strokeLinecap="round" opacity=".8"/>
+      <g className="brand-eyes" fill="#3E5149"><ellipse cx="34" cy="29" rx="1.5" ry="2.5"/><ellipse cx="41" cy="29" rx="1.5" ry="2.5"/></g></g>
+    </svg><span className="word">{label}</span>
+  </Brand>;
 }
-
-const Logo = ({ onClick }: LogoProps) => {
-    return (
-        <LogoContainer
-            onClick={onClick}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-        >
-            <LogoSvg
-                viewBox="0 0 40 40"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <defs>
-                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#76a4da" />
-                        <stop offset="100%" stopColor="#bebcd8" />
-                    </linearGradient>
-                </defs>
-                {/* 원형 파이 차트 - 완전한 원형, 4등분, 왼쪽 위만 채움 */}
-                {/* 섹션 1: 오른쪽 위 (0도~90도) - 테두리만 */}
-                <motion.path
-                    d="M 20 20 L 35 20 A 15 15 0 0 1 20 5 L 20 20 Z"
-                    fill="none"
-                    stroke="url(#logoGradient)"
-                    strokeWidth="2.5"
-                    strokeLinejoin="round"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.1, ease: "easeInOut" }}
-                />
-                {/* 섹션 2: 왼쪽 위 (90도~180도) - 채움 */}
-                <motion.path
-                    d="M 20 20 L 20 5 A 15 15 0 0 1 5 20 L 20 20 Z"
-                    fill="url(#logoGradient)"
-                    stroke="url(#logoGradient)"
-                    strokeWidth="2.5"
-                    strokeLinejoin="round"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.2, ease: "easeInOut" }}
-                />
-                {/* 섹션 3: 왼쪽 아래 (180도~270도) - 테두리만 */}
-                <motion.path
-                    d="M 20 20 L 5 20 A 15 15 0 0 1 20 35 L 20 20 Z"
-                    fill="none"
-                    stroke="url(#logoGradient)"
-                    strokeWidth="2.5"
-                    strokeLinejoin="round"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.3, ease: "easeInOut" }}
-                />
-                {/* 섹션 4: 오른쪽 아래 (270도~360도) - 테두리만 */}
-                <motion.path
-                    d="M 20 20 L 20 35 A 15 15 0 0 1 35 20 L 20 20 Z"
-                    fill="none"
-                    stroke="url(#logoGradient)"
-                    strokeWidth="2.5"
-                    strokeLinejoin="round"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.4, ease: "easeInOut" }}
-                />
-            </LogoSvg>
-            <LogoText>Portfolio</LogoText>
-        </LogoContainer>
-    );
-};
-
-export default Logo;
-
-
-export const FooterLogo = ({ onClick }: LogoProps) => {
-    return (
-        <LogoContainer
-            onClick={onClick}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-        >
-            <LogoSvg
-                viewBox="0 0 40 40"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <defs>
-                    <linearGradient id="footerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#76a4da" />
-                        <stop offset="100%" stopColor="#bebcd8" />
-                    </linearGradient>
-                </defs>
-                {/* 원형 파이 차트 - 완전한 원형, 4등분, 왼쪽 위만 채움 */}
-                {/* 섹션 1: 오른쪽 위 (0도~90도) - 테두리만 */}
-                <motion.path
-                    d="M 20 20 L 35 20 A 15 15 0 0 1 20 5 L 20 20 Z"
-                    fill="none"
-                    stroke="url(#footerLogoGradient)"
-                    strokeWidth="2.5"
-                    strokeLinejoin="round"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.1, ease: "easeInOut" }}
-                />
-                {/* 섹션 2: 왼쪽 위 (90도~180도) - 채움 */}
-                <motion.path
-                    d="M 20 20 L 20 5 A 15 15 0 0 1 5 20 L 20 20 Z"
-                    fill="url(#footerLogoGradient)"
-                    stroke="url(#footerLogoGradient)"
-                    strokeWidth="2.5"
-                    strokeLinejoin="round"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.2, ease: "easeInOut" }}
-                />
-                {/* 섹션 3: 왼쪽 아래 (180도~270도) - 테두리만 */}
-                <motion.path
-                    d="M 20 20 L 5 20 A 15 15 0 0 1 20 35 L 20 20 Z"
-                    fill="none"
-                    stroke="url(#footerLogoGradient)"
-                    strokeWidth="2.5"
-                    strokeLinejoin="round"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.3, ease: "easeInOut" }}
-                />
-                {/* 섹션 4: 오른쪽 아래 (270도~360도) - 테두리만 */}
-                <motion.path
-                    d="M 20 20 L 20 35 A 15 15 0 0 1 35 20 L 20 20 Z"
-                    fill="none"
-                    stroke="url(#footerLogoGradient)"
-                    strokeWidth="2.5"
-                    strokeLinejoin="round"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.4, ease: "easeInOut" }}
-                />
-            </LogoSvg>
-            <LogoText>INFO</LogoText>
-        </LogoContainer>
-    );
-};
-
+export default function Logo(props:LogoProps) { return <BrandMark {...props} label="Portfolio" />; }
+export function FooterLogo(props:LogoProps) { return <BrandMark {...props} label="Portfolio" />; }

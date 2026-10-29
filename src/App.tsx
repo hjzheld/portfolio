@@ -67,6 +67,7 @@ function AppContent() {
           <Route path="/project" element={<PortfolioPage />} />
           <Route path="/project/:id" element={<Detail />} />
           <Route path="/personal" element={<PersonalHistory />} />
+          <Route path="/personal/work/:id" element={<Detail />} />
           <Route path="/404" element={<NotFoundPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

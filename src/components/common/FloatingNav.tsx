@@ -55,6 +55,11 @@ const FloatingWrap = styled.div`
 const RadialItem = styled.button<{
   $active: boolean;
 }>`
+  && { background:${({$active})=>$active ? 'var(--clay-mint)' : 'var(--surface-blue)'}; color:var(--ink); border-color:rgba(255,255,255,.85); box-shadow:var(--clay-shadow); }
+  &&:nth-of-type(2) { background:${({$active})=>$active ? 'var(--clay-mint)' : 'var(--surface-peach)'}; }
+  &&:nth-of-type(3) { background:${({$active})=>$active ? 'var(--clay-mint)' : 'var(--surface-blue)'}; }
+  &&:hover { background:var(--clay-mint); color:var(--ink); border-color:#9fbcaa; }
+
   position: absolute;
 
   left: 5px;
@@ -72,8 +77,8 @@ const RadialItem = styled.button<{
   border: 1px solid
     ${({ $active }) =>
       $active
-        ? "rgba(118, 164, 218, .65)"
-        : "rgba(255, 255, 255, .7)"};
+        ? "rgba(133, 129, 133, .65)"
+        : "rgba(255, 251, 253, .7)"};
 
   border-radius: 50%;
 
@@ -82,41 +87,32 @@ const RadialItem = styled.button<{
       ? `
         linear-gradient(
           145deg,
-          var(--primary-color),
-          #8eb5e1
+          var(--mauve),
+          #b68172
         )
       `
       : `
-        rgba(
-          241,
-          248,
-          255,
+        rgba(251, 246, 249,
           .92
         )
       `};
 
   color: ${({ $active }) =>
     $active
-      ? "var(--white-100)"
+      ? "var(--coal)"
       : "var(--gray-400)"};
 
   box-shadow: ${({ $active }) =>
     $active
       ? `
         0 8px 22px
-        rgba(
-          118,
-          164,
-          218,
+        rgba(133, 129, 133,
           .32
         )
       `
       : `
         0 8px 24px
-        rgba(
-          118,
-          164,
-          218,
+        rgba(133, 129, 133,
           .16
         ),
         0 2px 5px
@@ -148,7 +144,7 @@ const RadialItem = styled.button<{
     box-shadow 0.25s ease;
 
   &:hover {
-    color: var(--white-100);
+    color: var(--coal);
 
     background:
       var(--primary-color);
@@ -158,10 +154,7 @@ const RadialItem = styled.button<{
 
     box-shadow:
       0 10px 27px
-      rgba(
-        118,
-        164,
-        218,
+      rgba(133, 129, 133,
         .34
       );
   }
@@ -236,20 +229,14 @@ const ItemLabel = styled.span`
 
   border:
     1px solid
-    rgba(
-      255,
-      255,
-      255,
+    rgba(255, 251, 253,
       0.75
     );
 
   border-radius: 10px;
 
   background:
-    rgba(
-      241,
-      248,
-      255,
+    rgba(251, 246, 249,
       0.95
     );
 
@@ -258,10 +245,7 @@ const ItemLabel = styled.span`
 
   box-shadow:
     0 6px 18px
-    rgba(
-      118,
-      164,
-      218,
+    rgba(133, 129, 133,
       0.15
     );
 
@@ -299,28 +283,19 @@ const ItemLabel = styled.span`
     height: 7px;
 
     background:
-      rgba(
-        241,
-        248,
-        255,
+      rgba(251, 246, 249,
         0.95
       );
 
     border-right:
       1px solid
-      rgba(
-        255,
-        255,
-        255,
+      rgba(255, 251, 253,
         0.75
       );
 
     border-bottom:
       1px solid
-      rgba(
-        255,
-        255,
-        255,
+      rgba(255, 251, 253,
         0.75
       );
 
@@ -355,7 +330,7 @@ const ActiveIndicator = styled.span`
   border-radius: 50%;
 
   background:
-    var(--white-100);
+    var(--coal);
 
   box-shadow:
     0 0 0 2px
@@ -366,7 +341,11 @@ const ActiveIndicator = styled.span`
    MAIN FAB
 ========================================================= */
 
-const MainFab = styled.button`
+const MainFab = styled.button<{ $open:boolean }>`
+  && { background:${({$open})=>$open ? 'var(--clay-mint)' : 'var(--surface-neutral)'}; color:var(--ink); border-color:${({$open})=>$open ? '#9fbcaa' : 'rgba(255,255,255,.85)'}; box-shadow:var(--clay-shadow); }
+  &&:hover { background:${({$open})=>$open ? '#afcdbc' : 'var(--surface-blue)'}; }
+  &&::before { border-color:${({$open})=>$open ? 'rgba(84,115,98,.3)' : 'rgba(84,115,98,.12)'}; }
+
   position: absolute;
 
   left: 0;
@@ -385,31 +364,25 @@ const MainFab = styled.button`
 
   border:
     1px solid
-    rgba(
-      255,
-      255,
-      255,
+    rgba(255, 251, 253,
       .75
     );
 
   border-radius: 50%;
 
   color:
-    var(--white-100);
+    var(--coal);
 
   background: linear-gradient(
     145deg,
-    var(--primary-color),
-    var(--primary-light)
+    var(--mauve),
+    var(--desiree)
   );
 
   box-shadow:
     0 12px 30px
-    rgba(
-      118,
-      164,
-      218,
-      .32
+    rgba(85, 100, 90,
+      .14
     ),
     0 3px 8px
     rgba(
@@ -437,10 +410,7 @@ const MainFab = styled.button`
 
     border:
       1px solid
-      rgba(
-        118,
-        164,
-        218,
+      rgba(133, 129, 133,
         .18
       );
 
@@ -454,15 +424,12 @@ const MainFab = styled.button`
   }
 
   &:hover {
-    transform: scale(1.06);
+    transform: scale(1.03);
 
     box-shadow:
       0 15px 34px
-      rgba(
-        118,
-        164,
-        218,
-        .38
+      rgba(85, 100, 90,
+        .18
       );
   }
 
@@ -1098,7 +1065,7 @@ const FloatingNav = () => {
           )
         }
 
-        aria-label="프로젝트 페이지로 이동"
+        aria-label="포트폴리오 페이지로 이동"
 
         tabIndex={
           isOpen
@@ -1113,7 +1080,7 @@ const FloatingNav = () => {
         <ProjectIcon />
 
         <ItemLabel>
-          프로젝트
+          포트폴리오
         </ItemLabel>
       </RadialItem>
 
@@ -1122,6 +1089,7 @@ const FloatingNav = () => {
       ============================================= */}
 
       <MainFab
+        $open={isOpen}
         type="button"
 
         onClick={

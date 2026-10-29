@@ -6,8 +6,8 @@ const CardWrapper = styled(motion.div)`
     padding: 2rem;
     background: linear-gradient(
         160deg,
-        rgba(175, 213, 255, 0.9),
-        rgba(205, 205, 205, 0.9)
+        rgba(249, 220, 229, 0.9),
+        rgba(220, 236, 248, 0.9)
     );
     border-radius: 20px;
     backdrop-filter: blur(6px);      

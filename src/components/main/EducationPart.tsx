@@ -19,6 +19,8 @@ const CardsGrid = styled(motion.div)`
 `;
 
 const EducationCard = styled(motion.div)`
+    background:var(--surface-neutral); border:var(--clay-border); box-shadow:var(--clay-shadow);
+
     padding: 2.5rem;
     border-radius: 20px;
     color: var(--gray-100);
@@ -33,7 +35,7 @@ const CardHeader = styled(motion.div)`
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    border-bottom: 2px solid rgba(118, 164, 218, 0.3);
+    border-bottom: 2px solid rgba(133, 129, 133, 0.3);
     padding-bottom: 1rem;
 `;
 

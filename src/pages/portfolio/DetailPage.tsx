@@ -16,7 +16,8 @@ import {
   motion,
 } from "framer-motion";
 
-import { Projects } from "@/types/project";
+import projects from "@/data/project";
+import { Link as RouterLink, Navigate, useLocation, useParams } from "react-router-dom";
 
 import {
   fadeUp,
@@ -25,6 +26,55 @@ import {
   staggerContainer,
   viewport,
 } from "@/utils/animations";
+
+const CaseArticle = styled.article`
+  width:100%; max-width:1120px; min-width:0; margin:3rem auto 6rem; padding:0 1.25rem;
+  .back { display:inline-flex; align-items:center; gap:.8rem; padding:.7rem 1rem; border:1px solid #dfe5d5; border-radius:50px; color:#3e5149; font-size:.85rem; }
+  header { border-radius:30px; box-shadow:var(--clay-shadow); padding:3rem 2rem 2rem; margin-top:2rem; background:var(--lemon-paper); border:1px solid var(--vanilla); border-top:1px solid rgba(255,255,255,.8); }
+  .eyebrow { font-family:var(--font-editorial); font-style:italic; }
+
+  .eyebrow { color:#64736b; font-size:.75rem; letter-spacing:.15em; }
+  h1 { word-break:keep-all; overflow-wrap:anywhere; max-width:850px; color:#3e5149; font-size:clamp(2rem,5vw,3.5rem); line-height:1.3; margin:1rem 0 1.5rem; letter-spacing:-.05em; }
+  h2 { color:#3e5149; font-size:1.4rem; margin:.5rem 0 1.1rem; }
+  p { color:var(--gray-400); line-height:1.95; word-break:keep-all; overflow-wrap:anywhere; }
+  .tags { display:flex; flex-wrap:wrap; gap:.5rem; margin:1.5rem 0; }
+  .tag { max-width:100%; overflow-wrap:anywhere; background:#e0ead9; color:#64736b; padding:.4rem .75rem; border-radius:8px; font-size:.8rem; }
+  .layout > * { min-width:0; }
+  .layout { display:grid; grid-template-columns:210px minmax(0,1fr); gap:4rem; padding-top:2.5rem; }
+  aside nav { position:sticky; top:110px; display:flex; flex-direction:column; gap:1rem; font-size:.8rem; color:#64736b; line-height:1.7; }
+  section { padding:0 0 2.5rem; margin:0 0 2.5rem; border-bottom:1px solid #e7e3d7; scroll-margin-top:110px; }
+  .number { color:#64736b; font-size:.75rem; letter-spacing:.15em; }
+  .links { display:flex; gap:.75rem; flex-wrap:wrap; margin-top:1.5rem; }
+  .links a { padding:.7rem 1rem; background:#3e5149; color:white; border-radius:9px; font-size:.85rem; }
+  .project-preview { display:block; width:100%; height:auto; margin:2rem 0; border:12px solid var(--paper); outline:1px solid var(--vanilla); }
+  footer { margin-top:1rem; }
+  a:hover { text-decoration:underline; text-underline-offset:4px; }
+  @media(max-width:760px) {
+    margin:1.5rem auto 4rem; padding:0 1rem;
+    .layout { grid-template-columns:minmax(0,1fr); gap:1.5rem; padding-top:2rem; }
+    aside { display:none; }
+    header { margin-top:1.5rem; padding:1.5rem 1.25rem; border-radius:24px; }
+    h1 { font-size:clamp(1.5rem,6.4vw,2rem); line-height:1.45; margin:0 0 1rem; letter-spacing:-.035em; }
+    h2 { font-size:1.2rem; line-height:1.5; word-break:keep-all; overflow-wrap:anywhere; }
+    p { font-size:.9rem; line-height:1.9; }
+    .tags { margin:1.25rem 0; gap:.4rem; }
+    .tag { font-size:.75rem; }
+    .project-preview { border-width:8px; margin:1.5rem 0; }
+    section { padding-bottom:1.75rem; margin-bottom:1.75rem; }
+  }
+  @media(max-width:480px) {
+    .links { display:grid; grid-template-columns:minmax(0,1fr); gap:.65rem; }
+    .links a { text-align:center; padding:.8rem; line-height:1.5; }
+    .back { font-size:.8rem; padding:.65rem .85rem; max-width:100%; }
+  }
+`;
+
+const BackLink = styled(RouterLink)`
+  display:inline-flex; align-items:center; gap:.75rem; padding:.7rem 1rem;
+  margin:1rem 0; border:1px solid #dfe5d5; border-radius:50px;
+  color:#3e5149; font-size:.85rem; background:rgba(255, 251, 253,.6);
+  &:hover { background:#f5e6c8; }
+`;
 
 const SectionTitle = styled(motion.div)`
   font-size: 1.5rem;
@@ -115,10 +165,10 @@ const StackTag = styled(motion.div)`
 
   padding: 0.5rem 1rem;
 
-  background: rgba(118, 164, 218, 0.15);
+  background: rgba(133, 129, 133, 0.15);
 
   border:
-    1px solid rgba(118, 164, 218, 0.3);
+    1px solid rgba(133, 129, 133, 0.3);
 
   border-radius: 20px;
 
@@ -181,10 +231,10 @@ const PreviewNavButton = styled.button<{
 
   padding: 0;
 
-  border: 1px solid rgba(154, 189, 230, 0.5);
+  border: 1px solid rgba(185, 130, 146, 0.5);
   border-radius: 50%;
 
-  background: rgba(114, 130, 151, 0.85);
+  background: rgba(133, 129, 133, 0.85);
 
   transform: translateY(-50%);
 
@@ -295,10 +345,10 @@ const ModalNavButton = styled.button<{
   padding: 0;
   margin: 0;
 
-  border: 1px solid rgba(154, 189, 230, 0.5);
+  border: 1px solid rgba(185, 130, 146, 0.5);
   border-radius: 50%;
 
-  background: rgba(114, 130, 151, 0.85);
+  background: rgba(133, 129, 133, 0.85);
   transform: translateY(-50%);
 
   transition:
@@ -395,7 +445,7 @@ const ModalCloseButton = styled.button`
   padding: 0;
   margin: 0;
 
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 251, 253, 0.35);
   border-radius: 50%;
 
   background: rgba(0, 0, 0, 0.68);
@@ -440,7 +490,7 @@ const ModalCloseButton = styled.button`
 
   &:hover {
     background: rgba(0, 0, 0, 0.88);
-    border-color: rgba(255, 255, 255, 0.7);
+    border-color: rgba(255, 251, 253, 0.7);
     transform: none !important;
   }
 
@@ -472,8 +522,9 @@ const StackName = {
 };
 
 const DetailPage = () => {
-  const [project, setProject] =
-    useState<Projects | null>(null);
+  const { id } = useParams();
+  const location = useLocation();
+  const project = projects.find(item => String(item.id) === id);
 
   const [isImageOpen, setIsImageOpen] =
     useState(false);
@@ -484,14 +535,7 @@ const DetailPage = () => {
   const [currentImageIndex, setCurrentImageIndex] =
     useState(0);
 
-  useEffect(() => {
-    const stored =
-      localStorage.getItem("project");
 
-    if (stored) {
-      setProject(JSON.parse(stored));
-    }
-  }, []);
 
   const imageCount =
     project?.detail.image.length ?? 0;
@@ -585,8 +629,26 @@ const DetailPage = () => {
     };
   }, [isImageOpen, imageCount]);
 
+  if (project?.detail.sections?.length) {
+    const previewImage = project.detail.image.find(media => media.type === "image");
+    const isWork = project.kind === '실무' || project.kind === '자동화';
+    if (isWork && location.pathname.startsWith('/project/')) return <Navigate to={`/personal/work/${project.id}`} replace />;
+    const back = isWork ? '/personal' : '/project';
+    const backLabel = isWork ? '경력으로 돌아가기' : '포트폴리오로 돌아가기';
+    return <CaseArticle>
+      <RouterLink className="back" to={back}>← {backLabel}</RouterLink>
+      <header><h1>{project.title}</h1><p>{project.content}</p><div className="tags">{project.tags.map(tag=><span className="tag" key={tag}>{tag}</span>)}</div>
+      <div className="links">{project.detail.site && <a href={project.detail.site} target="_blank" rel="noreferrer">서비스 방문 ↗</a>}{project.detail.github && <a href={project.detail.github} target="_blank" rel="noreferrer">구현·검증 기록 ↗</a>}</div></header>
+      {previewImage && <img className="project-preview" src={previewImage.src} alt={`${project.title} 실제 프로젝트 화면`} loading="lazy" />}
+      <div className="layout"><aside><nav aria-label="상세 내용 목차">{project.detail.sections.map(([title],index)=><a href={`#section-${index}`} key={title}>{String(index+1).padStart(2,'0')} / {title}</a>)}</nav></aside>
+      <div>{project.detail.sections.map(([title,body],index)=><section id={`section-${index}`} key={title}><span className="number">{String(index+1).padStart(2,'0')}</span><h2>{title}</h2><p>{body}</p></section>)}</div></div>
+      <footer><RouterLink className="back" to={back}>← {backLabel}</RouterLink></footer>
+    </CaseArticle>;
+  }
+
   return (
     <Container>
+      <BackLink to="/project">← 포트폴리오로 돌아가기</BackLink>
       {project ? (
         <>
           <motion.div
@@ -840,7 +902,7 @@ const DetailPage = () => {
                                     y: -4,
 
                                     background:
-                                      "rgba(118, 164, 218, 0.25)",
+                                      "rgba(133, 129, 133, 0.25)",
 
                                     borderColor:
                                       "var(--primary-color)",
@@ -952,7 +1014,7 @@ const DetailPage = () => {
           </AnimatePresence>
         </>
       ) : (
-        <p>프로젝트 정보를 불러오는 중...</p>
+        <p>존재하지 않는 프로젝트입니다. <RouterLink to="/project">프로젝트 목록으로 돌아가기</RouterLink></p>
       )}
     </Container>
   );

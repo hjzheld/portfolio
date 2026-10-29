@@ -10,7 +10,7 @@ const MouseGlow = styled.div`
 
   background: radial-gradient(
     500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(118, 164, 218, 0.12),
+    rgba(249, 220, 229, 0.12),
     transparent 65%
   );
 `;

@@ -1,52 +1,12 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+import { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import Container from '@/components/common/Container';
+import SelectedWork from '@/components/main/SelectedWork';
+import useFirstPageVisit from '@/hooks/useFirstPageVisit';
 
-import {
-  AnimatePresence,
-  motion,
-} from "framer-motion";
-
-import {
-  useRef,
-  useState,
-} from "react";
-
-import {
-  useNavigate,
-} from "react-router-dom";
-
-import gsap from "gsap";
-
-import {
-  useGSAP,
-} from "@gsap/react";
-
-import Container from "@/components/common/Container";
-
-import {
-  Title,
-} from "@/components/common/Title";
-
-import Card from "@/components/detail/Card";
-
-import Btn from "@/components/common/Btn";
-
-import projects from "@/data/project";
-
-import categories from "@/data/categry";
-
-import useProjectNavigation from "@/hooks/useProjectNavigation";
-
-import type {
-  SubCategory,
-} from "@/types/category";
-
-gsap.registerPlugin(
-  useGSAP,
-);
-
-/* =========================================================
-   PAGE
-========================================================= */
+gsap.registerPlugin(useGSAP);
 
 const Page = styled.div`
   position: relative;
@@ -56,10 +16,6 @@ const Page = styled.div`
 
   overflow: visible;
 `;
-
-/* =========================================================
-   ACTUAL PAGE CONTENT
-========================================================= */
 
 const ProjectContent =
   styled.div`
@@ -85,15 +41,6 @@ const ProjectContent =
       clip-path;
   `;
 
-const PageIntro =
-  styled.div`
-    width: 100%;
-  `;
-
-/* =========================================================
-   PAGE TRANSITION
-========================================================= */
-
 const PageTransition =
   styled.div`
     position: fixed;
@@ -106,10 +53,6 @@ const PageTransition =
 
     pointer-events: none;
   `;
-
-/* =========================================================
-   TRANSITION PANEL
-========================================================= */
 
 const TransitionPanel =
   styled.div`
@@ -156,10 +99,6 @@ const MistPanel = styled(
       --project-transition-mist
     );
 `;
-
-/* =========================================================
-   TRANSITION DECORATION
-========================================================= */
 
 const TransitionDecoration =
   styled.div`
@@ -262,10 +201,6 @@ const TransitionCircle =
       width: 86vw;
     }
   `;
-
-/* =========================================================
-   TRANSITION TEXT
-========================================================= */
 
 const TransitionContent =
   styled.div`
@@ -376,427 +311,24 @@ const TransitionLine =
       center;
   `;
 
-/* =========================================================
-   CATEGORY
-========================================================= */
-
-const Category =
-  styled.div`
-    width: 100%;
-
-    max-width: 800px;
-
-    margin: 0 auto;
-
-    padding:
-      2rem
-      2rem
-      1rem;
-
-    min-height: 50px;
-
-    display: flex;
-
-    justify-content:
-      center;
-
-    align-items:
-      center;
-
-    gap: 2rem;
-
-    flex-wrap:
-      wrap;
-
-    @media (
-      max-width:
-      1200px
-    ) {
-      padding:
-        1.75rem
-        1.5rem
-        0.75rem;
-
-      gap: 1.5rem;
-    }
-
-    @media (
-      max-width:
-      768px
-    ) {
-      padding:
-        1.5rem
-        1rem
-        0.5rem;
-
-      gap: 1rem;
-    }
-
-    @media (
-      max-width:
-      480px
-    ) {
-      padding:
-        1rem
-        0.5rem
-        0.5rem;
-
-      gap:
-        0.75rem;
-    }
-
-    @media (
-      max-width:
-      360px
-    ) {
-      padding:
-        0.75rem
-        0.25rem
-        0.5rem;
-
-      gap:
-        0.5rem;
-    }
-  `;
-
-/* =========================================================
-   SUB CATEGORY
-========================================================= */
-
-const SubCategoryWrapper =
-  styled(motion.div)`
-    min-height: 30px;
-
-    margin-top:
-      1.5rem;
-
-    margin-bottom:
-      1rem;
-
-    padding:
-      0
-      2rem;
-
-    display: flex;
-
-    justify-content:
-      center;
-
-    align-items:
-      center;
-
-    flex-wrap:
-      wrap;
-
-    gap: 1rem;
-
-    @media (
-      max-width:
-      1200px
-    ) {
-      padding:
-        0
-        1.5rem;
-
-      gap:
-        0.875rem;
-    }
-
-    @media (
-      max-width:
-      768px
-    ) {
-      padding:
-        0
-        1rem;
-
-      gap:
-        0.75rem;
-
-      margin-top:
-        1rem;
-
-      margin-bottom:
-        0.75rem;
-    }
-
-    @media (
-      max-width:
-      480px
-    ) {
-      padding:
-        0
-        0.5rem;
-
-      gap:
-        0.5rem;
-
-      margin-top:
-        0.75rem;
-
-      margin-bottom:
-        0.5rem;
-    }
-
-    @media (
-      max-width:
-      360px
-    ) {
-      padding:
-        0
-        0.25rem;
-
-      gap:
-        0.375rem;
-    }
-  `;
-
-/* =========================================================
-   CARD CONTAINER
-========================================================= */
-
-const CardContainer =
-  styled.div`
-    width: 100%;
-
-    max-width: 1200px;
-
-    margin: 0 auto;
-
-    padding:
-      2rem
-      1.5rem;
-
-    display: grid;
-
-    grid-template-columns:
-      repeat(
-        auto-fill,
-        minmax(
-          300px,
-          1fr
-        )
-      );
-
-    gap: 2rem;
-
-    align-items:
-      stretch;
-
-    @media (
-      max-width:
-      1200px
-    ) {
-      grid-template-columns:
-        repeat(
-          auto-fill,
-          minmax(
-            280px,
-            1fr
-          )
-        );
-
-      gap:
-        1.5rem;
-
-      padding:
-        1.5rem
-        1.25rem;
-    }
-
-    @media (
-      max-width:
-      992px
-    ) {
-      grid-template-columns:
-        repeat(
-          auto-fill,
-          minmax(
-            260px,
-            1fr
-          )
-        );
-
-      gap:
-        1.25rem;
-
-      padding:
-        1.25rem
-        1rem;
-    }
-
-    @media (
-      max-width:
-      768px
-    ) {
-      grid-template-columns:
-        repeat(
-          auto-fill,
-          minmax(
-            240px,
-            1fr
-          )
-        );
-
-      gap: 1rem;
-
-      padding:
-        1rem;
-    }
-
-    @media (
-      max-width:
-      640px
-    ) {
-      grid-template-columns:
-        1fr;
-
-      gap: 1rem;
-
-      padding:
-        1rem;
-    }
-
-    @media (
-      max-width:
-      480px
-    ) {
-      gap:
-        0.875rem;
-
-      padding:
-        0.75rem;
-    }
-
-    @media (
-      max-width:
-      360px
-    ) {
-      gap:
-        0.75rem;
-
-      padding:
-        0.5rem;
-    }
-  `;
-
-/* =========================================================
-   CARD
-
-   OUTER
-   = Framer Motion
-     layout / exit / hover
-
-   INNER
-   = GSAP
-     enter animation
-========================================================= */
-
-const CardLayoutWrapper =
-  styled(motion.div)`
-    display: flex;
-
-    height: 100%;
-  `;
-
-const CardGsapItem =
-  styled.div`
-    display: flex;
-
-    width: 100%;
-    height: 100%;
-
-    transform-origin:
-      50%
-      100%;
-
-    will-change:
-      transform,
-      opacity;
-  `;
-
-/* =========================================================
-   COMPONENT
-========================================================= */
-
-const PortfolioPage =
-  () => {
-    const navigate =
-      useNavigate();
-
-    const pageRef =
-      useRef<HTMLDivElement>(
-        null,
-      );
-
-    /* =====================================================
-       PROJECT NAVIGATION HOOK
-    ===================================================== */
-
-    const {
-      markProjectDetailOpen,
-
-      isReturningFromProjectDetail,
-
-      clearProjectReturn,
-    } =
-      useProjectNavigation();
-
-    /*
-     * 렌더 순간의 값을 고정.
-     *
-     * React StrictMode에서
-     * GSAP effect가 다시 실행돼도
-     * 뒤로가기 판정이 변경되지 않음.
-     */
-    const shouldSkipIntroRef =
-      useRef(
-        isReturningFromProjectDetail,
-      );
-
-    /* =====================================================
-       INTRO 완료
-    ===================================================== */
-
-    const introDoneRef =
-      useRef(false);
-
-    /* =====================================================
-       FILTER
-
-       실제 사용자가 필터를 클릭했을 때만
-       GSAP filter animation을 실행하기 위한 값.
-
-       이렇게 하면 뒤로가기 직후
-       StrictMode 때문에 필터 animation이
-       갑자기 실행되는 문제도 방지.
-    ===================================================== */
-
-    const filterInteractionRef =
-      useRef(false);
-
-    const [
-      selectedTab,
-      setTab,
-    ] =
-      useState<
-        | "all"
-        | "front"
-        | "back"
-      >("all");
-
-    const [
-      selectedSub,
-      setSub,
-    ] =
-      useState<
-        string | null
-      >(null);
-
-    /* =====================================================
-       PAGE INTRO GSAP
-    ===================================================== */
-
+const Header = styled.header`
+  &&& { border:var(--clay-border); border-radius:32px; background:var(--surface-neutral); box-shadow:var(--clay-shadow); }
+
+  && { border-radius:32px 32px 90px 32px; padding:3rem 2.5rem; border:1px solid var(--vanilla); background:linear-gradient(0deg,var(--lemon-paper),var(--lemon-paper)) padding-box; position:relative; }
+  &&::before { content:''; display:none; height:30px; margin:-2.5rem -2rem 2rem; border-bottom:1px solid var(--vanilla); background:var(--mauve); }
+  && span { font-family:var(--font-editorial); font-style:italic; }
+
+  max-width: 1200px; margin: 2.5rem auto 0; padding: 0 1rem;
+  span { font-size: .8rem; letter-spacing: .12em; color: var(--gray-400); }
+  h1 { margin: .75rem 0 1rem; font-size: clamp(2rem,5vw,3.5rem); line-height: 1.3; }
+  p { max-width: 680px; line-height: 1.8; color: var(--gray-400); word-break: keep-all; }
+`;
+
+export default function PortfolioPage() {
+  const firstVisit = useFirstPageVisit('projects');
+  const pageRef = useRef<HTMLDivElement>(null);
+  const shouldSkipIntroRef = useRef(!firstVisit);
+  const introDoneRef = useRef(false);
     useGSAP(
       () => {
         const content =
@@ -834,20 +366,6 @@ const PortfolioPage =
           skipIntro ||
           reducedMotion
         ) {
-          /*
-           * 다음 프로젝트 방문에는
-           * 영향을 주지 않도록 초기화.
-           *
-           * shouldSkipIntroRef는 이미 true로
-           * 고정되어 있으므로 StrictMode에서
-           * effect가 다시 돌아도 안전.
-           */
-          if (
-            skipIntro
-          ) {
-            clearProjectReturn();
-          }
-
           /* ===============================
              PAGE TRANSITION 제거
           =============================== */
@@ -894,8 +412,24 @@ const PortfolioPage =
             },
           );
 
-          introDoneRef.current =
-            true;
+          introDoneRef.current = true;
+
+          // Revisit skips only the full-screen transition. Keep the original
+          // title, category and card entrances without waiting for the overlay.
+          if (!reducedMotion) {
+            const entrance = gsap.timeline();
+            entrance
+              .fromTo('.project-page-intro',
+                { opacity: 0, y: 22 },
+                { opacity: 1, y: 0, duration: 0.48, ease: 'power3.out', clearProps: 'transform,opacity' })
+              .fromTo('.project-category',
+                { opacity: 0, y: 16 },
+                { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', clearProps: 'transform,opacity' }, '-=0.25')
+              .fromTo('.project-card',
+                { opacity: 0, y: 58, scale: 0.94, rotation: (index: number) => index % 2 === 0 ? -3.2 : 3.2, transformOrigin: '50% 100%' },
+                { opacity: 1, y: 0, scale: 1, rotation: 0, duration: 0.72, stagger: { each: 0.075, from: 'start' }, ease: 'back.out(1.55)', clearProps: 'transform,opacity' }, '-=0.12');
+            return () => { entrance.kill(); };
+          }
 
           return;
         }
@@ -1459,215 +993,8 @@ const PortfolioPage =
       },
     );
 
-    /* =====================================================
-       FILTER CHANGE GSAP
 
-       반드시 사용자가 필터를 클릭했을 때만 실행.
-
-       그래서:
-       - 최초 페이지 로드 X
-       - 뒤로가기 X
-       - StrictMode 재실행 X
-    ===================================================== */
-
-    useGSAP(
-      () => {
-        if (
-          !introDoneRef.current
-        ) {
-          return;
-        }
-
-        /*
-         * 실제 필터 클릭이 아니라면
-         * 실행하지 않음.
-         */
-        if (
-          !filterInteractionRef.current
-        ) {
-          return;
-        }
-
-        /*
-         * 한 번 소비
-         */
-        filterInteractionRef.current =
-          false;
-
-        const cards =
-          gsap.utils
-            .toArray<HTMLElement>(
-              ".project-card",
-            );
-
-        if (
-          !cards.length
-        ) {
-          return;
-        }
-
-        gsap.killTweensOf(
-          cards,
-        );
-
-        /* =================================================
-           FILTER 카드 등장
-
-           최초 진입보다는
-           조금 약한 효과
-        ================================================= */
-
-        gsap.fromTo(
-          cards,
-
-          {
-            opacity:
-              0,
-
-            y:
-              32,
-
-            scale:
-              0.965,
-
-            rotation: (
-              index: number,
-            ) =>
-              index %
-                  2 ===
-                0
-                ? -2.2
-                : 2.2,
-
-            transformOrigin:
-              "50% 100%",
-          },
-
-          {
-            opacity:
-              1,
-
-            y:
-              0,
-
-            scale:
-              1,
-
-            rotation:
-              0,
-
-            duration:
-              0.56,
-
-            stagger: {
-              each:
-                0.055,
-
-              from:
-                "start",
-            },
-
-            ease:
-              "back.out(1.4)",
-
-            clearProps:
-              "transform,opacity",
-
-            overwrite:
-              "auto",
-          },
-        );
-      },
-
-      {
-        scope:
-          pageRef,
-
-        dependencies: [
-          selectedTab,
-          selectedSub,
-        ],
-      },
-    );
-
-    /* =====================================================
-       PROJECT FILTER
-    ===================================================== */
-
-    const filteredList = [
-      ...projects,
-    ]
-      .sort(
-        (
-          a,
-          b,
-        ) =>
-          b.id -
-          a.id,
-      )
-      .filter(
-        (
-          project,
-        ) => {
-          /* =========================
-             ALL
-          ========================= */
-
-          if (
-            selectedTab ===
-            "all"
-          ) {
-            return true;
-          }
-
-          /* =========================
-             FRONT / BACK
-          ========================= */
-
-          if (
-            selectedTab !==
-            project.mainTab
-          ) {
-            return false;
-          }
-
-          /* =========================
-             SUB CATEGORY
-          ========================= */
-
-          if (
-            selectedSub &&
-            selectedSub !==
-              project.subTab
-          ) {
-            return false;
-          }
-
-          return true;
-        },
-      );
-
-    const selectedCategory =
-      categories.find(
-        (
-          category,
-        ) =>
-          category.type ===
-          selectedTab,
-      );
-
-    /* =====================================================
-       RENDER
-    ===================================================== */
-
-    return (
-      <Page
-        ref={pageRef}
-      >
-        {/* =================================================
-            PAGE TRANSITION
-        ================================================= */}
-
+  return <Page ref={pageRef}>
         <PageTransition className="project-transition">
           {/* BASE */}
 
@@ -1702,317 +1029,14 @@ const PortfolioPage =
           </TransitionContent>
         </PageTransition>
 
-        {/* =================================================
-            ACTUAL PROJECT PAGE
-        ================================================= */}
 
-        <ProjectContent className="project-content">
-          <Container>
-            {/* =============================================
-                TITLE
-            ============================================= */}
-
-            <PageIntro className="project-page-intro">
-              <Title
-                page="main"
-                title="포트폴리오"
-              />
-            </PageIntro>
-
-            {/* =============================================
-                MAIN CATEGORY
-            ============================================= */}
-
-            <Category className="project-category">
-              {categories.map(
-                (
-                  tab,
-                ) => (
-                  <motion.div
-                    key={
-                      tab.type
-                    }
-
-                    whileHover={{
-                      scale:
-                        1.06,
-
-                      y:
-                        -3,
-                    }}
-
-                    whileTap={{
-                      scale:
-                        0.95,
-                    }}
-
-                    transition={{
-                      type:
-                        "spring",
-
-                      stiffness:
-                        300,
-
-                      damping:
-                        18,
-                    }}
-                  >
-                    <Btn.CategoryBtn
-                      tab={
-                        tab
-                      }
-
-                      active={
-                        selectedTab ===
-                        tab.type
-                      }
-
-                      onClick={() => {
-                        /*
-                         * ★ 사용자가 직접 필터 클릭함
-                         */
-                        filterInteractionRef.current =
-                          true;
-
-                        setTab(
-                          tab.type as
-                            | "all"
-                            | "front"
-                            | "back",
-                        );
-
-                        setSub(
-                          null,
-                        );
-                      }}
-                    />
-                  </motion.div>
-                ),
-              )}
-            </Category>
-
-            {/* =============================================
-                SUB CATEGORY
-            ============================================= */}
-
-            <AnimatePresence mode="wait">
-              {selectedCategory?.subTitle && (
-                <SubCategoryWrapper
-                  key={
-                    selectedCategory.type
-                  }
-
-                  initial={{
-                    opacity:
-                      0,
-
-                    scale:
-                      0.95,
-
-                    y:
-                      -8,
-                  }}
-
-                  animate={{
-                    opacity:
-                      1,
-
-                    scale:
-                      1,
-
-                    y:
-                      0,
-                  }}
-
-                  exit={{
-                    opacity:
-                      0,
-
-                    scale:
-                      0.95,
-
-                    y:
-                      -8,
-                  }}
-
-                  transition={{
-                    duration:
-                      0.25,
-
-                    ease:
-                      "easeOut",
-                  }}
-                >
-                  <Btn.SubCategory
-                    tab={
-                      selectedCategory
-                    }
-
-                    active={
-                      true
-                    }
-
-                    selectedSub={
-                      selectedSub ??
-                      undefined
-                    }
-
-                    onClick={(
-                      subTitle?: SubCategory,
-                    ) => {
-                      if (
-                        !subTitle
-                      ) {
-                        return;
-                      }
-
-                      /*
-                       * ★ 사용자가 직접
-                       * SubCategory 클릭
-                       */
-                      filterInteractionRef.current =
-                        true;
-
-                      setSub(
-                        subTitle.type,
-                      );
-                    }}
-                  />
-                </SubCategoryWrapper>
-              )}
-            </AnimatePresence>
-
-            {/* =============================================
-                PROJECT CARD LIST
-            ============================================= */}
-
-            <CardContainer>
-              <AnimatePresence mode="popLayout">
-                {filteredList.map(
-                  (
-                    project,
-                  ) => (
-                    <CardLayoutWrapper
-                      key={
-                        project.id
-                      }
-
-                      /* ===============================
-                         FRAMER
-                         카드 재배치
-                      =============================== */
-
-                      layout
-
-                      /*
-                       * 최초 진입은
-                       * GSAP이 담당
-                       */
-                      initial={
-                        false
-                      }
-
-                      /* ===============================
-                         FILTER EXIT
-                      =============================== */
-
-                      exit={{
-                        opacity:
-                          0,
-
-                        scale:
-                          0.94,
-
-                        y:
-                          18,
-                      }}
-
-                      transition={{
-                        layout: {
-                          type:
-                            "spring",
-
-                          stiffness:
-                            280,
-
-                          damping:
-                            26,
-                        },
-
-                        opacity: {
-                          duration:
-                            0.2,
-                        },
-
-                        scale: {
-                          duration:
-                            0.22,
-                        },
-                      }}
-
-                      /* ===============================
-                         HOVER
-                      =============================== */
-
-                      whileHover={{
-                        y:
-                          -7,
-
-                        scale:
-                          1.015,
-                      }}
-
-                      whileTap={{
-                        scale:
-                          0.98,
-                      }}
-                    >
-                      {/* =================================
-                          INNER GSAP
-                      ================================= */}
-
-                      <CardGsapItem className="project-card">
-                        <Card
-                          project={
-                            project
-                          }
-
-                          onClick={() => {
-                            /*
-                             * 프로젝트 상세 데이터는
-                             * 기존 방식 그대로 유지
-                             */
-                            localStorage.setItem(
-                              "project",
-
-                              JSON.stringify(
-                                project,
-                              ),
-                            );
-
-                            /*
-                             * ★ 현재 Portfolio history key
-                             * 기억
-                             *
-                             * sessionStorage 사용 X
-                             */
-                            markProjectDetailOpen();
-
-                            navigate(
-                              `/project/${project.id}`,
-                            );
-                          }}
-                        />
-                      </CardGsapItem>
-                    </CardLayoutWrapper>
-                  ),
-                )}
-              </AnimatePresence>
-            </CardContainer>
-          </Container>
-        </ProjectContent>
-      </Page>
-    );
-  };
-
-export default PortfolioPage;
+    <ProjectContent className="project-content">
+      <Container>
+        <Header className="project-page-intro"><h1>포트폴리오</h1>
+          <p>직접 기획한 서비스와 팀 프로젝트를 모았습니다. 회사에서 담당한 서비스 개발 사례는 경력에서 확인할 수 있습니다.</p>
+        </Header>
+        <SelectedWork />
+      </Container>
+    </ProjectContent>
+  </Page>;
+}

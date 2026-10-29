@@ -38,8 +38,8 @@ const LinkButton = styled(motion.a)`
   align-items: center;
   justify-content: space-between;
   padding: 0.875rem 1.25rem;
-  background: rgba(118, 164, 218, 0.1);
-  border: 1.5px solid rgba(118, 164, 218, 0.3);
+  background: rgba(133, 129, 133, 0.1);
+  border: 1.5px solid rgba(133, 129, 133, 0.3);
   border-radius: 12px;
   font-size: 0.95rem;
   font-weight: 500;
@@ -59,7 +59,7 @@ const LinkButton = styled(motion.a)`
   }
   
   &:hover {
-    background: rgba(118, 164, 218, 0.2);
+    background: rgba(133, 129, 133, 0.2);
     border-color: var(--primary-color);
     transform: translateX(4px);
     
